@@ -56,8 +56,10 @@ bool trainRequired = true;
 bool nonTeacheble = false;
 double errGlobal = 999.0;
 int countTryed = 0;
-input double tradeErrThresold = 0.235; // Error threshold for trading
-double teachErrThresold = 3.5;
+input double MaxTradeErrorPct = 6.5; // Max average error % per sample to allow trade
+input double MaxTeachErrorPct = 12.0; // Max average error % per sample before resetting weights
+double tradeErrThresold = 0.0; // Calculated dynamically in OnInit
+double teachErrThresold = 0.0; // Calculated dynamically in OnInit
 int fastPassCounter = 0;
 
 double predictValues[predictBars];
@@ -88,6 +90,19 @@ void WriteToFile(string data, string fileName);
 int OnInit()
 {
    ObjectsDeleteAll();
+   
+   // Calculate dynamic error thresholds based on sample count and normalized scale
+   int sampleCount = trainSize - p;
+   if(sampleCount <= 0) sampleCount = 1;
+   
+   double tradeErrPerSample = MaxTradeErrorPct / 100.0;
+   double teachErrPerSample = MaxTeachErrorPct / 100.0;
+   
+   tradeErrThresold = sampleCount * (tradeErrPerSample * tradeErrPerSample) * 100.0;
+   teachErrThresold = sampleCount * (teachErrPerSample * teachErrPerSample) * 100.0;
+   
+   Print("Dynamic thresholds calculated. Trade threshold: ", tradeErrThresold, ", Teach threshold: ", teachErrThresold);
+
    InitBars();
    InitWeights();
    return(INIT_SUCCEEDED);
