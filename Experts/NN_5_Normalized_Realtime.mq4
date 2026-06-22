@@ -30,6 +30,7 @@ input bool saveLearningProgress = false;
 input bool ovverideSaveFile = false;
 input int saveTimerThresold = 100;
 input bool allowSkipTrain = false;
+input int MaxSkipBars = 88; // Max bars to skip training if error is low
 input double aStep = 0.01;
 
 // Neural Network arrays
@@ -370,7 +371,7 @@ void Train()
    }
 
    fastPassCounter++;
-   if(allowSkipTrain == true && errGlobal < tradeErrThresold && fastPassCounter < 88)
+   if(allowSkipTrain == true && errGlobal < tradeErrThresold && fastPassCounter < MaxSkipBars)
    {
       return;
    }
