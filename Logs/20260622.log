@@ -533,3 +533,5 @@
 0	13:52:30.709	MACD Sample EURUSD,H4: We have no money. Free Margin = 69.22
 0	13:52:33.601	MACD Sample EURUSD,H4: uninit reason 9
 0	13:52:33.616	Expert MACD Sample EURUSD,H4: removed
+0	21:47:53.378	Expert MACD Sample EURUSD,H4: loaded successfully
+0	21:47:53.378	MACD Sample EURUSD,H4 inputs: TakeProfit=50.0; Lots=0.1; TrailingStop=30.0; MACDOpenLevel=3.0; MACDCloseLevel=2.0; MATrendPeriod=26; 
