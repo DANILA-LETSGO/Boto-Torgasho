@@ -127,6 +127,7 @@ void InitWeights()
 
    if(readInitData)
    {
+      bool loadedSuccessfully = true;
       string strWeightsHidden;
       int handle = FileOpen("weightsHidden.txt", FILE_TXT|FILE_READ);
       if(handle > 0)
@@ -140,6 +141,7 @@ void InitWeights()
          if(k != countHiddenNeuron * p)
          {
             Print("Error: weightsHidden.txt file size mismatch.");
+            loadedSuccessfully = false;
          }
          else
          {
@@ -158,6 +160,7 @@ void InitWeights()
       else
       {
          Print("Warning: weightsHidden.txt could not be loaded. Error: ", GetLastError());
+         loadedSuccessfully = false;
       }
       
       string strThresoldsHidden;
@@ -171,6 +174,7 @@ void InitWeights()
          if(k != countHiddenNeuron)
          {
             Print("Error: thresoldsHidden.txt file size mismatch.");
+            loadedSuccessfully = false;
          }
          else
          {
@@ -182,6 +186,11 @@ void InitWeights()
             }
          }
          FileClose(handle);
+      }
+      else
+      {
+         Print("Warning: thresoldsHidden.txt could not be loaded. Error: ", GetLastError());
+         loadedSuccessfully = false;
       }
       
       string strWeightsOutputLayer;
@@ -195,6 +204,7 @@ void InitWeights()
          if(k != countHiddenNeuron)
          {
             Print("Error: weightsOutputLayer.txt file size mismatch.");
+            loadedSuccessfully = false;
          }
          else
          {
@@ -206,6 +216,16 @@ void InitWeights()
             }
          }
          FileClose(handle);
+      }
+      else
+      {
+         Print("Warning: weightsOutputLayer.txt could not be loaded. Error: ", GetLastError());
+         loadedSuccessfully = false;
+      }
+
+      if(loadedSuccessfully)
+      {
+         Print("Neural network weights and thresholds successfully loaded from files.");
       }
    }
    else
