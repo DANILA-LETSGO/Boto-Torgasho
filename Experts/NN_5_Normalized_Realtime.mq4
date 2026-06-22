@@ -9,7 +9,7 @@
 #property description "Normalized Multi-Layer Perceptron (NN) Real-time Scalper"
 #property strict
 
-#define p 288
+#define p 48
 #define countHiddenNeuron 8
 #define trainSize 512
 #define predictBars 49
