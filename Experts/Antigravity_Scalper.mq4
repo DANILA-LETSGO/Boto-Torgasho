@@ -39,6 +39,14 @@ input bool        UseTrailingStop   = true;       // Enable Trailing Stop
 input double      TrailingStartATR  = 1.5;        // Trailing Start (ATR Multiplier)
 input double      TrailingStepATR   = 0.5;        // Trailing Step (ATR Multiplier)
 
+//--- Input Parameters - Session Filter
+input string      Section_Session   = "=== SESSION FILTER ==="; // ----------------------------
+input bool        UseSessionFilter  = true;       // Enable Session Filter
+input int         StartHour         = 9;          // Start Hour (Broker Time)
+input int         StartMinute       = 0;          // Start Minute
+input int         EndHour           = 21;         // End Hour (Broker Time)
+input int         EndMinute         = 0;          // End Minute
+
 //--- Input Parameters - System Settings
 input string      Section_System    = "=== SYSTEM SETTINGS ==="; // ----------------------------
 input int         MagicNumber       = 888123;     // Magic Number
@@ -291,6 +299,31 @@ void ApplyTrailingStop()
 }
 
 //+------------------------------------------------------------------+
+//| Check if current broker time is within allowed trading hours     |
+//+------------------------------------------------------------------+
+bool IsWithinTradingHours()
+{
+   if(!UseSessionFilter) return true;
+   
+   datetime now = TimeCurrent();
+   int currentHour = TimeHour(now);
+   int currentMinute = TimeMinute(now);
+   
+   int nowMinutes = currentHour * 60 + currentMinute;
+   int startMinutes = StartHour * 60 + StartMinute;
+   int endMinutes = EndHour * 60 + EndMinute;
+   
+   if(startMinutes < endMinutes)
+   {
+      return (nowMinutes >= startMinutes && nowMinutes < endMinutes);
+   }
+   else // Overnight sessions (e.g., from 22:00 to 06:00)
+   {
+      return (nowMinutes >= startMinutes || nowMinutes < endMinutes);
+   }
+}
+
+//+------------------------------------------------------------------+
 //| OnTick function                                                  |
 //+------------------------------------------------------------------+
 void OnTick()
@@ -309,6 +342,10 @@ void OnTick()
       
    // 3. Check if we already have an open position
    if(GetOpenPositionsCount() > 0)
+      return;
+      
+   // 3b. Check session trading hours
+   if(!IsWithinTradingHours())
       return;
       
    // 4. Spread filter
