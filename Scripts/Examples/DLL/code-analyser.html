@@ -1,0 +1,526 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Project analysis report: DLL</title>
+<style>
+:root {
+  --bg: #0b1020;
+  --panel: #121933;
+  --panel-2: #18213f;
+  --text: #e8ecf8;
+  --muted: #a8b3cf;
+  --accent: #6ea8fe;
+  --border: #2b3763;
+  --code-bg: #0a0f1e;
+}
+* { box-sizing: border-box; }
+body {
+  margin: 0;
+  font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
+  background: linear-gradient(180deg, #0b1020 0%, #0d1328 100%);
+  color: var(--text);
+  line-height: 1.6;
+}
+.container {
+  margin: 0 auto;
+  padding: 0px 0 32px;
+}
+.hero {
+  background: linear-gradient(135deg, #162044 0%, #101937 100%);
+  border: 1px solid var(--border);
+  border-radius: 0px;
+  padding: 28px;
+  box-shadow: 0 12px 40px rgba(0, 0, 0, .28);
+}
+.hero h1 {
+  margin: 0 0 8px;
+  font-size: 32px;
+}
+.meta {
+  color: var(--muted);
+  font-size: 14px;
+}
+.grid {
+  display: grid;
+  grid-template-columns: 320px 1fr;
+  gap: 24px;
+  margin-top: 24px;
+}
+.sidebar, .main {
+  min-width: 0;
+}
+.card {
+  background: rgba(18, 25, 51, 0.96);
+  border: 1px solid var(--border);
+  border-radius: 0px;
+  padding: 22px;
+  margin-bottom: 22px;
+  box-shadow: 0 10px 28px rgba(0, 0, 0, .20);
+}
+.card h2 {
+  margin-top: 0;
+  font-size: 22px;
+}
+.card h3 {
+  margin-top: 22px;
+  font-size: 18px;
+  color: var(--accent);
+}
+pre {
+  background: var(--code-bg);
+  border: 1px solid var(--border);
+  border-radius: 0px;
+  padding: 16px;
+  overflow-x: auto;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+code {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  font-size: 13px;
+}
+a {
+  color: var(--accent);
+  text-decoration: none;
+}
+a:hover {
+  text-decoration: underline;
+}
+.src-link {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  font-weight: 600;
+}
+ul {
+  padding-left: 20px;
+}
+p {
+  margin: 10px 0;
+}
+.toc {
+  max-height: 70vh;
+  overflow: auto;
+  padding-right: 6px;
+}
+@media (max-width: 960px) {
+  .grid {
+    grid-template-columns: 1fr;
+  }
+  .toc {
+    max-height: none;
+  }
+}
+</style>
+</head>
+<body>
+  <div class="container">
+    <section class="hero">
+      <div class="meta">
+        <div><strong>Project:</strong> DLL</div>
+        <div><strong>Path:</strong> E:\MetaTrader4\Client\MetaTrader4Terminal\Defaults\MQL4\Scripts\Examples\DLL</div>
+        <div><strong>Model:</strong> gpt-5.4</div>
+        <div><strong>Generated at:</strong> 2026-04-25 14:18:12</div>
+        <div><strong>Analyzed units:</strong> 1</div>
+      </div>
+    </section>
+
+    <div class="grid">
+      <aside class="sidebar">
+        <section class="card">
+          <div class="toc">
+            <ul>
+              <li><a href="#summary">Project summary</a></li>
+              <li><a href="#unit-1">DLLSample [DLLSample.cpp]</a></li>
+            </ul>
+          </div>
+        </section>
+      </aside>
+
+      <main class="main">
+        <section class="card">
+          <h2 id="summary">Project summary</h2>
+          <div class="content">
+            <section>
+  <h3>Что это за проект по структуре и стилю</h3>
+  <p>Это небольшой демонстрационный проект Windows DLL, ориентированный на вызов из MQL4-клиента. По структуре он предельно простой: основная логика сосредоточена практически в одном исходном файле DLL, рядом лежит проект Visual C++ и тестовый скрипт/клиент для MetaTrader. Архитектурно это процедурный API для обмена простыми типами, строками, массивами и структурами между DLL и внешней средой.</p>
+  <p>Стиль реализации выглядит как учебный или экспериментальный: минимум слоев, почти нет формализованного интерфейса, контракт DLL задается в основном самой реализацией, а не отдельным публичным заголовком. При этом видны попытки учесть бинарную совместимость — используются экспорт функций, фиксированное соглашение вызова и упаковка структуры, — но эти решения не доведены до единого и строгого ABI-контракта.</p>
+  <ul>
+    <li>Нет явного центрального интерфейсного заголовка, который был бы единым источником истины для клиента и DLL.</li>
+    <li>API процедурный, “плоский”, без явной модели версионирования и без четкой системы ошибок.</li>
+    <li>На границе DLL активно используются сырые указатели и внешние буферы, что делает пример наглядным, но хрупким.</li>
+    <li>Стиль кода местами непоследовательный: смешиваются разные типы флагов успеха и варианты calling convention.</li>
+  </ul>
+</section>
+
+<section>
+  <h3>Главные архитектурные проблемы</h3>
+  <p>Ключевая архитектурная проблема проекта — отсутствие формально описанного DLL-контракта. Сейчас совместимость между DLL и клиентом держится на неявных договоренностях: как упакована структура, какой тип реально ожидается, как трактуются строки, что означает возвращаемое значение при ошибке. Для бинарного интерфейса это слишком слабая основа.</p>
+  <ul>
+    <li>Нет общего экспортного заголовка с <code>extern "C"</code>, единым макросом экспорта, calling convention, packing и описанием структур.</li>
+    <li>Модель API несогласованна: часть функций возвращает результат напрямую, часть — флаг успеха, часть — длину или количество.</li>
+    <li>Ошибки не унифицированы: нет общей схемы кодов ошибок и нет явного отделения “ошибка” от “корректное нулевое значение”.</li>
+    <li>Контракт на строки и буферы недостаточно формализован: неочевидно, кто владеет памятью, обязателен ли нуль-терминатор и как интерпретируется длина.</li>
+    <li>Структура данных и функции доступа выглядят несинхронно: публично раскрывается не весь смысл структуры, что делает API неполным и местами случайным.</li>
+    <li>Выбор “сырого” интерфейса на указателях и массивах повышает риск ABI-расхождений между компилятором DLL и внешним клиентом.</li>
+  </ul>
+</section>
+
+<section>
+  <h3>Самые опасные баги и риски</h3>
+  <p>Самые серьезные риски сосредоточены на границе DLL: именно там нестрогий контракт и небезопасные операции быстро превращаются в повреждение памяти, выход за границы буфера или трудноуловимые проблемы совместимости. Для такого проекта это важнее, чем локальные алгоритмические недочеты.</p>
+  <ul>
+    <li>Небезопасная работа со строками: использование <code>strlen</code> и <code>strcat</code> на внешних буферах без достаточных ограничений и проверок.</li>
+    <li>Возможны чтение за пределами памяти и сбои, если входная строка не нуль-терминирована в пределах переданного буфера.</li>
+    <li>Есть риск переполнения буфера на 1 байт в логике обработки массивов строк из-за некорректной проверки места под завершающий ноль.</li>
+    <li>Использование неверного формата для wide-строк в выводе может приводить к некорректной диагностике или неопределенному поведению.</li>
+    <li>Возврат 64-битных значений через <code>double</code> создает потерю точности и искажает публичный контракт.</li>
+    <li>Возврат <code>0.0</code> как сигнала ошибки опасен, потому что это может быть и валидное значение.</li>
+    <li>Некорректный или сомнительный компаратор для <code>qsort</code> может приводить к неопределенному поведению при сортировке.</li>
+    <li>Отсутствие общего ABI-описания создает риск несовпадения типов, упаковки структур и соглашения вызова между DLL и MQL4-клиентом.</li>
+  </ul>
+</section>
+
+<section>
+  <h3>Проблемы поддерживаемости и читаемости</h3>
+  <p>Проект маленький, но поддерживать его в текущем виде будет сложно именно из-за неформализованности. Когда интерфейс живет только в .cpp-файле, любое изменение требует ручной синхронизации знаний между кодом DLL и внешним клиентом. Это повышает цену даже простых доработок.</p>
+  <ul>
+    <li>Отсутствует явный публичный header-файл, поэтому контракт трудно читать, проверять и переиспользовать.</li>
+    <li>Есть непоследовательность в типах: одновременно встречаются <code>bool</code> и <code>BOOL</code>.</li>
+    <li>Используются разные записи calling convention: <code>__stdcall</code> и <code>_stdcall</code>, что ухудшает единообразие.</li>
+    <li>Система возвратов и ошибок неоднородна, из-за чего поведение функций приходится угадывать по месту.</li>
+    <li>Есть признаки копипаста: неточные сообщения логирования и несоответствие имен функций в диагностике.</li>
+    <li>Недостаточно самодокументируемых комментариев именно по ABI-правилам: упаковка, размеры, строки, массивы, допустимые значения параметров.</li>
+    <li>API скорее демонстрирует отдельные приемы, чем представляет цельную библиотеку с ясными границами ответственности.</li>
+  </ul>
+</section>
+
+<section>
+  <h3>Быстрые улучшения</h3>
+  <p>Без большой переработки архитектуры уже можно заметно снизить риски и сделать проект понятнее. Наибольший эффект дадут изменения, которые одновременно улучшают безопасность и формализуют поведение функций.</p>
+  <ul>
+    <li>Добавить единый экспортный заголовок с объявлениями всех функций, структур, packing, <code>extern "C"</code> и единым макросом экспорта.</li>
+    <li>Унифицировать соглашение вызова и типы на DLL-границе: выбрать один стиль и использовать его везде.</li>
+    <li>Перевести API на схему <code>BOOL/int + out-параметры</code> там, где сейчас ошибка маскируется обычным возвращаемым значением.</li>
+    <li>Для строк ввести жесткие правила: обязательная проверка <code>NULL</code>, явная длина буфера, требование места под <code>'\0'</code>, безопасные bounded-операции.</li>
+    <li>Исправить форматирование wide-строк и прочие локальные дефекты, влияющие на корректность и диагностику.</li>
+    <li>Убрать возврат 64-битных значений через <code>double</code>, заменить на корректные типы или отдельные выходные параметры.</li>
+    <li>Исправить компаратор сортировки, проверки размеров и граничные условия для массивов и строк.</li>
+    <li>Привести сообщения логирования к точным именам функций и единым формулировкам.</li>
+  </ul>
+</section>
+
+<section>
+  <h3>Приоритетный план доработок</h3>
+  <p>Оптимальный порядок работ — сначала устранить риски повреждения памяти и неоднозначности ABI, затем выровнять API и только после этого заниматься косметикой и расширением функциональности.</p>
+  <ul>
+    <li>Шаг 1: ввести публичный ABI-заголовок с полным описанием структур, packing, экспорта, calling convention и правил использования строк/массивов.</li>
+    <li>Шаг 2: срочно переписать небезопасные строковые участки на ограниченные операции с четкими проверками размеров и нуль-терминации.</li>
+    <li>Шаг 3: унифицировать модель возврата результатов и ошибок; исключить случаи, где валидное значение одновременно означает ошибку.</li>
+    <li>Шаг 4: исправить публичный контракт для 64-битных данных, не использовать <code>double</code> как транспорт для целых значений.</li>
+    <li>Шаг 5: стандартизировать типы на границе DLL, убрать смешение <code>BOOL</code>/<code>bool</code> и разнобой в calling convention.</li>
+    <li>Шаг 6: закрыть локальные дефекты высокой вероятности: off-by-one в буферах, компаратор <code>qsort</code>, проверки <code>NULL</code>, спорные граничные условия.</li>
+    <li>Шаг 7: улучшить читаемость и сопровождение — вычистить логирование, добавить комментарии к ABI и, при необходимости, разбить реализацию по тематическим модулям.</li>
+  </ul>
+</section>
+          </div>
+        </section>
+
+        
+<section class="card">
+  <h2 id="unit-1">DLLSample [DLLSample.cpp]</h2>
+  <div class="content">
+    <section>
+  <h3>Назначение класса/модуля</h3>
+  <p>Модуль представляет собой демонстрационную WinAPI DLL для вызова из MQL4. Экспортирует набор простых процедур для передачи через DLL границу скаляров, строк, массивов чисел, массива котировок и массива строковых структур. Реализация полностью procedural, заголовочный файл отсутствует, контракт фактически задается только экспортируемыми сигнатурами в <a href="code-analyser://open?path=DLLSample.cpp&amp;line=54"><a class="src-link" href="code-analyser://open?path=E%3A%5CMetaTrader4%5CClient%5CMetaTrader4Terminal%5CDefaults%5CMQL4%5CScripts%5CExamples%5CDLL%5CDLLSample.cpp&amp;line=54">DLLSample.cpp:54</a></a>, <a href="code-analyser://open?path=DLLSample.cpp&amp;line=62"><a class="src-link" href="code-analyser://open?path=E%3A%5CMetaTrader4%5CClient%5CMetaTrader4Terminal%5CDefaults%5CMQL4%5CScripts%5CExamples%5CDLL%5CDLLSample.cpp&amp;line=62">DLLSample.cpp:62</a></a>, <a href="code-analyser://open?path=DLLSample.cpp&amp;line=70"><a class="src-link" href="code-analyser://open?path=E%3A%5CMetaTrader4%5CClient%5CMetaTrader4Terminal%5CDefaults%5CMQL4%5CScripts%5CExamples%5CDLL%5CDLLSample.cpp&amp;line=70">DLLSample.cpp:70</a></a>, <a href="code-analyser://open?path=DLLSample.cpp&amp;line=78"><a class="src-link" href="code-analyser://open?path=E%3A%5CMetaTrader4%5CClient%5CMetaTrader4Terminal%5CDefaults%5CMQL4%5CScripts%5CExamples%5CDLL%5CDLLSample.cpp&amp;line=78">DLLSample.cpp:78</a></a>, <a href="code-analyser://open?path=DLLSample.cpp&amp;line=102"><a class="src-link" href="code-analyser://open?path=E%3A%5CMetaTrader4%5CClient%5CMetaTrader4Terminal%5CDefaults%5CMQL4%5CScripts%5CExamples%5CDLL%5CDLLSample.cpp&amp;line=102">DLLSample.cpp:102</a></a>, <a href="code-analyser://open?path=DLLSample.cpp&amp;line=127"><a class="src-link" href="code-analyser://open?path=E%3A%5CMetaTrader4%5CClient%5CMetaTrader4Terminal%5CDefaults%5CMQL4%5CScripts%5CExamples%5CDLL%5CDLLSample.cpp&amp;line=127">DLLSample.cpp:127</a></a>, <a href="code-analyser://open?path=DLLSample.cpp&amp;line=170"><a class="src-link" href="code-analyser://open?path=E%3A%5CMetaTrader4%5CClient%5CMetaTrader4Terminal%5CDefaults%5CMQL4%5CScripts%5CExamples%5CDLL%5CDLLSample.cpp&amp;line=170">DLLSample.cpp:170</a></a>, <a href="code-analyser://open?path=DLLSample.cpp&amp;line=191"><a class="src-link" href="code-analyser://open?path=E%3A%5CMetaTrader4%5CClient%5CMetaTrader4Terminal%5CDefaults%5CMQL4%5CScripts%5CExamples%5CDLL%5CDLLSample.cpp&amp;line=191">DLLSample.cpp:191</a></a>.</p>
+</section>
+
+<section>
+  <h3>Что видно по контракту и структуре</h3>
+  <ul>
+    <li>Внешний ABI формируется через <code>__declspec(dllexport)</code> и <code>__stdcall</code>; это важно для совместимости с MQL4, см. <a href="code-analyser://open?path=DLLSample.cpp&amp;line=10"><a class="src-link" href="code-analyser://open?path=E%3A%5CMetaTrader4%5CClient%5CMetaTrader4Terminal%5CDefaults%5CMQL4%5CScripts%5CExamples%5CDLL%5CDLLSample.cpp&amp;line=10">DLLSample.cpp:10</a></a>, <a href="code-analyser://open?path=DLLSample.cpp&amp;line=54"><a class="src-link" href="code-analyser://open?path=E%3A%5CMetaTrader4%5CClient%5CMetaTrader4Terminal%5CDefaults%5CMQL4%5CScripts%5CExamples%5CDLL%5CDLLSample.cpp&amp;line=54">DLLSample.cpp:54</a></a>.</li>
+    <li>Структура <code>RateInfo</code> упакована в 1 байт, что явно фиксирует layout на DLL-границе, см. <a href="code-analyser://open?path=DLLSample.cpp&amp;line=14"><a class="src-link" href="code-analyser://open?path=E%3A%5CMetaTrader4%5CClient%5CMetaTrader4Terminal%5CDefaults%5CMQL4%5CScripts%5CExamples%5CDLL%5CDLLSample.cpp&amp;line=14">DLLSample.cpp:14</a></a>–<a href="code-analyser://open?path=DLLSample.cpp&amp;line=26"><a class="src-link" href="code-analyser://open?path=E%3A%5CMetaTrader4%5CClient%5CMetaTrader4Terminal%5CDefaults%5CMQL4%5CScripts%5CExamples%5CDLL%5CDLLSample.cpp&amp;line=26">DLLSample.cpp:26</a></a>.</li>
+    <li><code>MqlStr</code> содержит длину буфера и указатель на ANSI-строку, но фактический контракт длины не документирован: неясно, включает ли <code>len</code> место под завершающий ноль, см. <a href="code-analyser://open?path=DLLSample.cpp&amp;line=28"><a class="src-link" href="code-analyser://open?path=E%3A%5CMetaTrader4%5CClient%5CMetaTrader4Terminal%5CDefaults%5CMQL4%5CScripts%5CExamples%5CDLL%5CDLLSample.cpp&amp;line=28">DLLSample.cpp:28</a></a>–<a href="code-analyser://open?path=DLLSample.cpp&amp;line=32"><a class="src-link" href="code-analyser://open?path=E%3A%5CMetaTrader4%5CClient%5CMetaTrader4Terminal%5CDefaults%5CMQL4%5CScripts%5CExamples%5CDLL%5CDLLSample.cpp&amp;line=32">DLLSample.cpp:32</a></a>.</li>
+    <li>Ошибки возвращаются через значения функций, исключений нет; это соответствует ограничениям проекта. Однако коды ошибок не унифицированы: где-то возвращается <code>0.0</code>, где-то <code>-1</code>, где-то <code>FALSE</code>, см. <a href="code-analyser://open?path=DLLSample.cpp&amp;line=81"><a class="src-link" href="code-analyser://open?path=E%3A%5CMetaTrader4%5CClient%5CMetaTrader4Terminal%5CDefaults%5CMQL4%5CScripts%5CExamples%5CDLL%5CDLLSample.cpp&amp;line=81">DLLSample.cpp:81</a></a>–<a href="code-analyser://open?path=DLLSample.cpp&amp;line=95"><a class="src-link" href="code-analyser://open?path=E%3A%5CMetaTrader4%5CClient%5CMetaTrader4Terminal%5CDefaults%5CMQL4%5CScripts%5CExamples%5CDLL%5CDLLSample.cpp&amp;line=95">DLLSample.cpp:95</a></a>, <a href="code-analyser://open?path=DLLSample.cpp&amp;line=173"><a class="src-link" href="code-analyser://open?path=E%3A%5CMetaTrader4%5CClient%5CMetaTrader4Terminal%5CDefaults%5CMQL4%5CScripts%5CExamples%5CDLL%5CDLLSample.cpp&amp;line=173">DLLSample.cpp:173</a></a>–<a href="code-analyser://open?path=DLLSample.cpp&amp;line=181"><a class="src-link" href="code-analyser://open?path=E%3A%5CMetaTrader4%5CClient%5CMetaTrader4Terminal%5CDefaults%5CMQL4%5CScripts%5CExamples%5CDLL%5CDLLSample.cpp&amp;line=181">DLLSample.cpp:181</a></a>.</li>
+    <li>Модуль использует CRT I/O и строки (<code>printf</code>, <code>wprintf</code>, <code>strlen</code>, <code>strcmp</code>, <code>strcat</code>, <code>qsort</code>), что для DLL допустимо технически, но контракт памяти и потокобезопасности с внешним рантаймом не описан, см. <a href="code-analyser://open?path=DLLSample.cpp&amp;line=56"><a class="src-link" href="code-analyser://open?path=E%3A%5CMetaTrader4%5CClient%5CMetaTrader4Terminal%5CDefaults%5CMQL4%5CScripts%5CExamples%5CDLL%5CDLLSample.cpp&amp;line=56">DLLSample.cpp:56</a></a>, <a href="code-analyser://open?path=DLLSample.cpp&amp;line=72"><a class="src-link" href="code-analyser://open?path=E%3A%5CMetaTrader4%5CClient%5CMetaTrader4Terminal%5CDefaults%5CMQL4%5CScripts%5CExamples%5CDLL%5CDLLSample.cpp&amp;line=72">DLLSample.cpp:72</a></a>, <a href="code-analyser://open?path=DLLSample.cpp&amp;line=184"><a class="src-link" href="code-analyser://open?path=E%3A%5CMetaTrader4%5CClient%5CMetaTrader4Terminal%5CDefaults%5CMQL4%5CScripts%5CExamples%5CDLL%5CDLLSample.cpp&amp;line=184">DLLSample.cpp:184</a></a>, <a href="code-analyser://open?path=DLLSample.cpp&amp;line=211"><a class="src-link" href="code-analyser://open?path=E%3A%5CMetaTrader4%5CClient%5CMetaTrader4Terminal%5CDefaults%5CMQL4%5CScripts%5CExamples%5CDLL%5CDLLSample.cpp&amp;line=211">DLLSample.cpp:211</a></a>, <a href="code-analyser://open?path=DLLSample.cpp&amp;line=227"><a class="src-link" href="code-analyser://open?path=E%3A%5CMetaTrader4%5CClient%5CMetaTrader4Terminal%5CDefaults%5CMQL4%5CScripts%5CExamples%5CDLL%5CDLLSample.cpp&amp;line=227">DLLSample.cpp:227</a></a>.</li>
+  </ul>
+</section>
+
+<section>
+  <h3>Потенциальные баги и риски</h3>
+  <ul>
+    <li>
+      <p>Неверный формат wide-строки в <code>wprintf</code>: для <code>wprintf</code> спецификатор <code>%s</code> трактуется как narrow-строка, а для <code>wchar_t*</code> нужен <code>%ls</code>. Текущий код может печатать мусор, читать память не в том формате или вести себя платформенно-зависимо. См. <a href="code-analyser://open?path=DLLSample.cpp&amp;line=70"><a class="src-link" href="code-analyser://open?path=E%3A%5CMetaTrader4%5CClient%5CMetaTrader4Terminal%5CDefaults%5CMQL4%5CScripts%5CExamples%5CDLL%5CDLLSample.cpp&amp;line=70">DLLSample.cpp:70</a></a>–<a href="code-analyser://open?path=DLLSample.cpp&amp;line=73"><a class="src-link" href="code-analyser://open?path=E%3A%5CMetaTrader4%5CClient%5CMetaTrader4Terminal%5CDefaults%5CMQL4%5CScripts%5CExamples%5CDLL%5CDLLSample.cpp&amp;line=73">DLLSample.cpp:73</a></a>.</p>
+      <pre>MT4_EXPFUNC wchar_t* __stdcall GetStringValue(wchar_t *spar)
+  {
+   wprintf(L"GetStringValue takes \"%s\"\n",spar);
+   return(spar);
+  }</pre>
+      <pre>MT4_EXPFUNC wchar_t* __stdcall GetStringValue(wchar_t* spar)
+{
+    if(spar==NULL)
+        return NULL;
+    wprintf(L"GetStringValue takes \"%ls\"\n", spar);
+    return spar;
+}</pre>
+    </li>
+
+    <li>
+      <p>Отсутствует проверка <code>spar == NULL</code> перед использованием в <code>GetStringValue</code>. При передаче нулевого указателя логирование через <code>wprintf</code> уже является UB/AV. См. <a href="code-analyser://open?path=DLLSample.cpp&amp;line=70"><a class="src-link" href="code-analyser://open?path=E%3A%5CMetaTrader4%5CClient%5CMetaTrader4Terminal%5CDefaults%5CMQL4%5CScripts%5CExamples%5CDLL%5CDLLSample.cpp&amp;line=70">DLLSample.cpp:70</a></a>–<a href="code-analyser://open?path=DLLSample.cpp&amp;line=73"><a class="src-link" href="code-analyser://open?path=E%3A%5CMetaTrader4%5CClient%5CMetaTrader4Terminal%5CDefaults%5CMQL4%5CScripts%5CExamples%5CDLL%5CDLLSample.cpp&amp;line=73">DLLSample.cpp:73</a></a>.</p>
+      <pre>MT4_EXPFUNC wchar_t* __stdcall GetStringValue(wchar_t *spar)
+  {
+   wprintf(L"GetStringValue takes \"%s\"\n",spar);
+   return(spar);
+  }</pre>
+      <pre>MT4_EXPFUNC wchar_t* __stdcall GetStringValue(wchar_t* spar)
+{
+    if(spar==NULL)
+    {
+        printf("GetStringValue: NULL string\n");
+        return NULL;
+    }
+    wprintf(L"GetStringValue takes \"%ls\"\n", spar);
+    return spar;
+}</pre>
+    </li>
+
+    <li>
+      <p>В <code>GetRatesItemValue</code> некорректная валидация размера: допускается <code>rates_total == 0</code>, после чего диапазон <code>shift</code> отвергается неявно, но логика ошибки становится неочевидной. Контракт по аналогии с остальными функциями должен требовать <code>rates_total &gt; 0</code>. См. <a href="code-analyser://open?path=DLLSample.cpp&amp;line=136"><a class="src-link" href="code-analyser://open?path=E%3A%5CMetaTrader4%5CClient%5CMetaTrader4Terminal%5CDefaults%5CMQL4%5CScripts%5CExamples%5CDLL%5CDLLSample.cpp&amp;line=136">DLLSample.cpp:136</a></a>–<a href="code-analyser://open?path=DLLSample.cpp&amp;line=154"><a class="src-link" href="code-analyser://open?path=E%3A%5CMetaTrader4%5CClient%5CMetaTrader4Terminal%5CDefaults%5CMQL4%5CScripts%5CExamples%5CDLL%5CDLLSample.cpp&amp;line=154">DLLSample.cpp:154</a></a>.</p>
+      <pre>if(rates_total&lt;0)
+  {
+   printf("GetRatesItemValue: wrong rates_total number (%d)\n", rates_total);
+   return(0.0);
+  }
+...
+int nitem=rates_total-1-shift;</pre>
+      <pre>if(rates_total&lt;=0)
+{
+    printf("GetRatesItemValue: wrong rates_total (%d)\n", rates_total);
+    return 0.0;
+}
+if(shift&lt;0 || shift&gt;=rates_total)
+{
+    printf("GetRatesItemValue: wrong shift (%d)\n", shift);
+    return 0.0;
+}</pre>
+    </li>
+
+    <li>
+      <p>Потеря точности при преобразовании 64-битных целых значений в <code>double</code>. Поля <code>ctm</code> и <code>vol_tick</code> имеют 64-битный тип, но возвращаются как <code>double</code>; для значений выше 2^53 точное представление невозможно. Это контрактная проблема на DLL-границе. См. <a href="code-analyser://open?path=DLLSample.cpp&amp;line=17"><a class="src-link" href="code-analyser://open?path=E%3A%5CMetaTrader4%5CClient%5CMetaTrader4Terminal%5CDefaults%5CMQL4%5CScripts%5CExamples%5CDLL%5CDLLSample.cpp&amp;line=17">DLLSample.cpp:17</a></a>, <a href="code-analyser://open?path=DLLSample.cpp&amp;line=22"><a class="src-link" href="code-analyser://open?path=E%3A%5CMetaTrader4%5CClient%5CMetaTrader4Terminal%5CDefaults%5CMQL4%5CScripts%5CExamples%5CDLL%5CDLLSample.cpp&amp;line=22">DLLSample.cpp:22</a></a>, <a href="code-analyser://open?path=DLLSample.cpp&amp;line=157"><a class="src-link" href="code-analyser://open?path=E%3A%5CMetaTrader4%5CClient%5CMetaTrader4Terminal%5CDefaults%5CMQL4%5CScripts%5CExamples%5CDLL%5CDLLSample.cpp&amp;line=157">DLLSample.cpp:157</a></a>, <a href="code-analyser://open?path=DLLSample.cpp&amp;line=162"><a class="src-link" href="code-analyser://open?path=E%3A%5CMetaTrader4%5CClient%5CMetaTrader4Terminal%5CDefaults%5CMQL4%5CScripts%5CExamples%5CDLL%5CDLLSample.cpp&amp;line=162">DLLSample.cpp:162</a></a>.</p>
+      <pre>case 0: return double(rates[nitem].ctm);
+case 1: return rates[nitem].open;
+case 2: return rates[nitem].low;
+case 3: return rates[nitem].high;
+case 4: return rates[nitem].close;
+case 5: return double(rates[nitem].vol_tick);</pre>
+      <pre>MT4_EXPFUNC bool __stdcall GetRatesItemInt64(
+    const RateInfo* rates,
+    int rates_total,
+    int shift,
+    int nrate,
+    __int64* out_value)
+{
+    if(rates==NULL || out_value==NULL || rates_total&lt;=0 || shift&lt;0 || shift&gt;=rates_total)
+        return FALSE;
+    const int nitem = rates_total - 1 - shift;
+    if(nrate==0) { *out_value = rates[nitem].ctm; return TRUE; }
+    if(nrate==5) { *out_value = (__int64)rates[nitem].vol_tick; return TRUE; }
+    return FALSE;
+}</pre>
+    </li>
+
+    <li>
+      <p>Сравнитель для <code>qsort</code> не задает корректный строгий порядок для случая двух <code>NULL</code>-строк: при <code>leftstr-&gt;string == NULL</code> функция всегда возвращает <code>-1</code>, даже если <code>rightstr-&gt;string == NULL</code>. Это нарушает требования к компаратору и делает поведение сортировки формально неопределенным. См. <a href="code-analyser://open?path=DLLSample.cpp&amp;line=235"><a class="src-link" href="code-analyser://open?path=E%3A%5CMetaTrader4%5CClient%5CMetaTrader4Terminal%5CDefaults%5CMQL4%5CScripts%5CExamples%5CDLL%5CDLLSample.cpp&amp;line=235">DLLSample.cpp:235</a></a>–<a href="code-analyser://open?path=DLLSample.cpp&amp;line=246"><a class="src-link" href="code-analyser://open?path=E%3A%5CMetaTrader4%5CClient%5CMetaTrader4Terminal%5CDefaults%5CMQL4%5CScripts%5CExamples%5CDLL%5CDLLSample.cpp&amp;line=246">DLLSample.cpp:246</a></a>.</p>
+      <pre>int CompareMqlStr(const void *left,const void *right)
+  {
+   MqlStr *leftstr=(MqlStr *)left;
+   MqlStr *rightstr=(MqlStr *)right;
+   if(leftstr->string==NULL) 
+      return(-1);
+   if(rightstr->string==NULL) 
+      return(1);
+   return(strcmp(leftstr->string,rightstr->string));
+  }</pre>
+      <pre>static int CompareMqlStr(const void* left, const void* right)
+{
+    const MqlStr* leftstr  = (const MqlStr*)left;
+    const MqlStr* rightstr = (const MqlStr*)right;
+    if(leftstr->string==NULL && rightstr->string==NULL) return 0;
+    if(leftstr->string==NULL) return -1;
+    if(rightstr->string==NULL) return 1;
+    return strcmp(leftstr->string, rightstr->string);
+}</pre>
+    </li>
+
+    <li>
+      <p>В <code>ProcessStringArray</code> проверка вместимости буфера, вероятно, ошибочна на 1 символ: для <code>strcat</code> нужен запас под завершающий ноль. Сейчас проверяется <code>arr[i].len &lt; len1 + len2</code>, но безопасное условие должно учитывать <code>+1</code>. Иначе при точном равенстве будет переполнение на байт. См. <a href="code-analyser://open?path=DLLSample.cpp&amp;line=224"><a class="src-link" href="code-analyser://open?path=E%3A%5CMetaTrader4%5CClient%5CMetaTrader4Terminal%5CDefaults%5CMQL4%5CScripts%5CExamples%5CDLL%5CDLLSample.cpp&amp;line=224">DLLSample.cpp:224</a></a>–<a href="code-analyser://open?path=DLLSample.cpp&amp;line=227"><a class="src-link" href="code-analyser://open?path=E%3A%5CMetaTrader4%5CClient%5CMetaTrader4Terminal%5CDefaults%5CMQL4%5CScripts%5CExamples%5CDLL%5CDLLSample.cpp&amp;line=227">DLLSample.cpp:227</a></a>.</p>
+      <pre>if(arr[i].len&lt;len1+len2)
+   continue;
+//--- final processing
+strcat(arr[i].string,arr[i+1].string);</pre>
+      <pre>const int required = len1 + len2 + 1;
+if(arr[i].len &lt; required)
+    continue;
+strcat(arr[i].string, arr[i+1].string);</pre>
+    </li>
+
+    <li>
+      <p><code>ProcessStringArray</code> опирается на <code>strlen</code>/<code>strcat</code> для внешних буферов, но не проверяет, что входные строки вообще нуль-терминированы в пределах заявленного буфера <code>len</code>. Если вызывающая сторона передаст поврежденный буфер, DLL уйдет в чтение за границы. См. <a href="code-analyser://open?path=DLLSample.cpp&amp;line=211"><a class="src-link" href="code-analyser://open?path=E%3A%5CMetaTrader4%5CClient%5CMetaTrader4Terminal%5CDefaults%5CMQL4%5CScripts%5CExamples%5CDLL%5CDLLSample.cpp&amp;line=211">DLLSample.cpp:211</a></a>, <a href="code-analyser://open?path=DLLSample.cpp&amp;line=216"><a class="src-link" href="code-analyser://open?path=E%3A%5CMetaTrader4%5CClient%5CMetaTrader4Terminal%5CDefaults%5CMQL4%5CScripts%5CExamples%5CDLL%5CDLLSample.cpp&amp;line=216">DLLSample.cpp:216</a></a>, <a href="code-analyser://open?path=DLLSample.cpp&amp;line=227"><a class="src-link" href="code-analyser://open?path=E%3A%5CMetaTrader4%5CClient%5CMetaTrader4Terminal%5CDefaults%5CMQL4%5CScripts%5CExamples%5CDLL%5CDLLSample.cpp&amp;line=227">DLLSample.cpp:227</a></a>.</p>
+      <pre>if(arr[i].string==NULL)
+   len1=0;
+else
+   len1=strlen(arr[i].string);
+
+if(arr[i+1].string==NULL)
+   len2=0;
+else
+   len2=strlen(arr[i+1].string);</pre>
+      <pre>static int BoundedStrLen(const char* s, int max_len)
+{
+    if(s==NULL || max_len&lt;=0) return -1;
+    for(int i=0; i&lt;max_len; ++i)
+        if(s[i]=='\0') return i;
+    return -1;
+}</pre>
+    </li>
+
+    <li>
+      <p>Функция <code>SetArrayItemValue</code> возвращает тип <code>bool</code>, но использует WinAPI-константы <code>TRUE/FALSE</code>. На x64 это обычно работает, но для DLL-контракта лучше избегать смешения C++ <code>bool</code> и WinAPI <code>BOOL</code>, особенно если импортирующая сторона ожидает 32-битное целое. См. <a href="code-analyser://open?path=DLLSample.cpp&amp;line=102"><a class="src-link" href="code-analyser://open?path=E%3A%5CMetaTrader4%5CClient%5CMetaTrader4Terminal%5CDefaults%5CMQL4%5CScripts%5CExamples%5CDLL%5CDLLSample.cpp&amp;line=102">DLLSample.cpp:102</a></a>–<a href="code-analyser://open?path=DLLSample.cpp&amp;line=123"><a class="src-link" href="code-analyser://open?path=E%3A%5CMetaTrader4%5CClient%5CMetaTrader4Terminal%5CDefaults%5CMQL4%5CScripts%5CExamples%5CDLL%5CDLLSample.cpp&amp;line=123">DLLSample.cpp:123</a></a>.</p>
+      <pre>MT4_EXPFUNC bool _stdcall SetArrayItemValue(double *arr,const int arraysize,const int nitem,const double value)
+  {
+...
+       return(FALSE);
+...
+    return(TRUE);
+  }</pre>
+      <pre>MT4_EXPFUNC BOOL __stdcall SetArrayItemValue(double* arr, int arraysize, int nitem, double value)
+{
+    if(arr==NULL || arraysize&lt;=0 || nitem&lt;0 || nitem&gt;=arraysize)
+        return FALSE;
+    arr[nitem] = value;
+    return TRUE;
+}</pre>
+    </li>
+
+    <li>
+      <p>Логирование ошибок в <code>SetArrayItemValue</code> копипастно указывает чужое имя функции <code>GetArrayItemValue</code>, что затрудняет диагностику на реальном проекте. См. <a href="code-analyser://open?path=DLLSample.cpp&amp;line=107"><a class="src-link" href="code-analyser://open?path=E%3A%5CMetaTrader4%5CClient%5CMetaTrader4Terminal%5CDefaults%5CMQL4%5CScripts%5CExamples%5CDLL%5CDLLSample.cpp&amp;line=107">DLLSample.cpp:107</a></a>, <a href="code-analyser://open?path=DLLSample.cpp&amp;line=112"><a class="src-link" href="code-analyser://open?path=E%3A%5CMetaTrader4%5CClient%5CMetaTrader4Terminal%5CDefaults%5CMQL4%5CScripts%5CExamples%5CDLL%5CDLLSample.cpp&amp;line=112">DLLSample.cpp:112</a></a>, <a href="code-analyser://open?path=DLLSample.cpp&amp;line=117"><a class="src-link" href="code-analyser://open?path=E%3A%5CMetaTrader4%5CClient%5CMetaTrader4Terminal%5CDefaults%5CMQL4%5CScripts%5CExamples%5CDLL%5CDLLSample.cpp&amp;line=117">DLLSample.cpp:117</a></a>.</p>
+      <pre>printf("GetArrayItemValue: NULL array\n");
+...
+printf("GetArrayItemValue: wrong arraysize (%d)\n", arraysize);
+...
+printf("GetArrayItemValue: wrong item number (%d)\n", nitem);</pre>
+      <pre>printf("SetArrayItemValue: NULL array\n");
+printf("SetArrayItemValue: wrong arraysize (%d)\n", arraysize);
+printf("SetArrayItemValue: wrong item number (%d)\n", nitem);</pre>
+    </li>
+  </ul>
+</section>
+
+<section>
+  <h3>Замечания по качеству кода</h3>
+  <ul>
+    <li>У модуля нет отдельного заголовка, поэтому экспортируемый контракт, packing структур и соглашение о вызовах нельзя переиспользовать из одного источника истины. Это повышает риск расхождения между DLL и клиентом, см. <a href="code-analyser://open?path=DLLSample.cpp&amp;line=14"><a class="src-link" href="code-analyser://open?path=E%3A%5CMetaTrader4%5CClient%5CMetaTrader4Terminal%5CDefaults%5CMQL4%5CScripts%5CExamples%5CDLL%5CDLLSample.cpp&amp;line=14">DLLSample.cpp:14</a></a>, <a href="code-analyser://open?path=DLLSample.cpp&amp;line=28"><a class="src-link" href="code-analyser://open?path=E%3A%5CMetaTrader4%5CClient%5CMetaTrader4Terminal%5CDefaults%5CMQL4%5CScripts%5CExamples%5CDLL%5CDLLSample.cpp&amp;line=28">DLLSample.cpp:28</a></a>, <a href="code-analyser://open?path=DLLSample.cpp&amp;line=54"><a class="src-link" href="code-analyser://open?path=E%3A%5CMetaTrader4%5CClient%5CMetaTrader4Terminal%5CDefaults%5CMQL4%5CScripts%5CExamples%5CDLL%5CDLLSample.cpp&amp;line=54">DLLSample.cpp:54</a></a>.</li>
+    <li>Есть непоследовательность в стиле вызова: используется и <code>__stdcall</code>, и <code>_stdcall</code>. Для ABI это обычно эквивалентно, но для читаемости и единообразия лучше выбрать один вариант, см. <a href="code-analyser://open?path=DLLSample.cpp&amp;line=54"><a class="src-link" href="code-analyser://open?path=E%3A%5CMetaTrader4%5CClient%5CMetaTrader4Terminal%5CDefaults%5CMQL4%5CScripts%5CExamples%5CDLL%5CDLLSample.cpp&amp;line=54">DLLSample.cpp:54</a></a>, <a href="code-analyser://open?path=DLLSample.cpp&amp;line=102"><a class="src-link" href="code-analyser://open?path=E%3A%5CMetaTrader4%5CClient%5CMetaTrader4Terminal%5CDefaults%5CMQL4%5CScripts%5CExamples%5CDLL%5CDLLSample.cpp&amp;line=102">DLLSample.cpp:102</a></a>.</li>
+    <li>Используются C-style cast и снятие <code>const</code> в компараторе, хотя модификация объектов не требуется, см. <a href="code-analyser://open?path=DLLSample.cpp&amp;line=237"><a class="src-link" href="code-analyser://open?path=E%3A%5CMetaTrader4%5CClient%5CMetaTrader4Terminal%5CDefaults%5CMQL4%5CScripts%5CExamples%5CDLL%5CDLLSample.cpp&amp;line=237">DLLSample.cpp:237</a></a>–<a href="code-analyser://open?path=DLLSample.cpp&amp;line=238"><a class="src-link" href="code-analyser://open?path=E%3A%5CMetaTrader4%5CClient%5CMetaTrader4Terminal%5CDefaults%5CMQL4%5CScripts%5CExamples%5CDLL%5CDLLSample.cpp&amp;line=238">DLLSample.cpp:238</a></a>.</li>
+    <li>Возврат <code>0.0</code> как ошибки в числовых функциях двусмысленен, потому что это может быть и валидное значение данных, см. <a href="code-analyser://open?path=DLLSample.cpp&amp;line=83"><a class="src-link" href="code-analyser://open?path=E%3A%5CMetaTrader4%5CClient%5CMetaTrader4Terminal%5CDefaults%5CMQL4%5CScripts%5CExamples%5CDLL%5CDLLSample.cpp&amp;line=83">DLLSample.cpp:83</a></a>–<a href="code-analyser://open?path=DLLSample.cpp&amp;line=95"><a class="src-link" href="code-analyser://open?path=E%3A%5CMetaTrader4%5CClient%5CMetaTrader4Terminal%5CDefaults%5CMQL4%5CScripts%5CExamples%5CDLL%5CDLLSample.cpp&amp;line=95">DLLSample.cpp:95</a></a>, <a href="code-analyser://open?path=DLLSample.cpp&amp;line=132"><a class="src-link" href="code-analyser://open?path=E%3A%5CMetaTrader4%5CClient%5CMetaTrader4Terminal%5CDefaults%5CMQL4%5CScripts%5CExamples%5CDLL%5CDLLSample.cpp&amp;line=132">DLLSample.cpp:132</a></a>–<a href="code-analyser://open?path=DLLSample.cpp&amp;line=165"><a class="src-link" href="code-analyser://open?path=E%3A%5CMetaTrader4%5CClient%5CMetaTrader4Terminal%5CDefaults%5CMQL4%5CScripts%5CExamples%5CDLL%5CDLLSample.cpp&amp;line=165">DLLSample.cpp:165</a></a>.</li>
+    <li><code>DllMain</code> сейчас безопасно пустой, что хорошо; видимых проблем внутри него нет, см. <a href="code-analyser://open?path=DLLSample.cpp&amp;line=37"><a class="src-link" href="code-analyser://open?path=E%3A%5CMetaTrader4%5CClient%5CMetaTrader4Terminal%5CDefaults%5CMQL4%5CScripts%5CExamples%5CDLL%5CDLLSample.cpp&amp;line=37">DLLSample.cpp:37</a></a>–<a href="code-analyser://open?path=DLLSample.cpp&amp;line=50"><a class="src-link" href="code-analyser://open?path=E%3A%5CMetaTrader4%5CClient%5CMetaTrader4Terminal%5CDefaults%5CMQL4%5CScripts%5CExamples%5CDLL%5CDLLSample.cpp&amp;line=50">DLLSample.cpp:50</a></a>.</li>
+  </ul>
+</section>
+
+<section>
+  <h3>Архитектурные замечания</h3>
+  <ul>
+    <li>Для DLL-границы смешаны несколько моделей контракта: прямой возврат значения, возврат флага успеха, возврат длины массива. Для внешнего клиента надежнее единая схема: <code>BOOL/int result + out-параметры</code>, см. <a href="code-analyser://open?path=DLLSample.cpp&amp;line=54"><a class="src-link" href="code-analyser://open?path=E%3A%5CMetaTrader4%5CClient%5CMetaTrader4Terminal%5CDefaults%5CMQL4%5CScripts%5CExamples%5CDLL%5CDLLSample.cpp&amp;line=54">DLLSample.cpp:54</a></a>–<a href="code-analyser://open?path=DLLSample.cpp&amp;line=57"><a class="src-link" href="code-analyser://open?path=E%3A%5CMetaTrader4%5CClient%5CMetaTrader4Terminal%5CDefaults%5CMQL4%5CScripts%5CExamples%5CDLL%5CDLLSample.cpp&amp;line=57">DLLSample.cpp:57</a></a>, <a href="code-analyser://open?path=DLLSample.cpp&amp;line=78"><a class="src-link" href="code-analyser://open?path=E%3A%5CMetaTrader4%5CClient%5CMetaTrader4Terminal%5CDefaults%5CMQL4%5CScripts%5CExamples%5CDLL%5CDLLSample.cpp&amp;line=78">DLLSample.cpp:78</a></a>–<a href="code-analyser://open?path=DLLSample.cpp&amp;line=98"><a class="src-link" href="code-analyser://open?path=E%3A%5CMetaTrader4%5CClient%5CMetaTrader4Terminal%5CDefaults%5CMQL4%5CScripts%5CExamples%5CDLL%5CDLLSample.cpp&amp;line=98">DLLSample.cpp:98</a></a>, <a href="code-analyser://open?path=DLLSample.cpp&amp;line=170"><a class="src-link" href="code-analyser://open?path=E%3A%5CMetaTrader4%5CClient%5CMetaTrader4Terminal%5CDefaults%5CMQL4%5CScripts%5CExamples%5CDLL%5CDLLSample.cpp&amp;line=170">DLLSample.cpp:170</a></a>–<a href="code-analyser://open?path=DLLSample.cpp&amp;line=187"><a class="src-link" href="code-analyser://open?path=E%3A%5CMetaTrader4%5CClient%5CMetaTrader4Terminal%5CDefaults%5CMQL4%5CScripts%5CExamples%5CDLL%5CDLLSample.cpp&amp;line=187">DLLSample.cpp:187</a></a>.</li>
+    <li>Контракт строк через <code>char*</code>/<code>wchar_t*</code> недостаточно формализован: кто владеет памятью, гарантируется ли нуль-терминатор, что означает <code>len</code>, допустимы ли <code>NULL</code>-строки. Эти правила сейчас размазаны по условиям в коде, но не выражены интерфейсом, см. <a href="code-analyser://open?path=DLLSample.cpp&amp;line=28"><a class="src-link" href="code-analyser://open?path=E%3A%5CMetaTrader4%5CClient%5CMetaTrader4Terminal%5CDefaults%5CMQL4%5CScripts%5CExamples%5CDLL%5CDLLSample.cpp&amp;line=28">DLLSample.cpp:28</a></a>–<a href="code-analyser://open?path=DLLSample.cpp&amp;line=32"><a class="src-link" href="code-analyser://open?path=E%3A%5CMetaTrader4%5CClient%5CMetaTrader4Terminal%5CDefaults%5CMQL4%5CScripts%5CExamples%5CDLL%5CDLLSample.cpp&amp;line=32">DLLSample.cpp:32</a></a>, <a href="code-analyser://open?path=DLLSample.cpp&amp;line=206"><a class="src-link" href="code-analyser://open?path=E%3A%5CMetaTrader4%5CClient%5CMetaTrader4Terminal%5CDefaults%5CMQL4%5CScripts%5CExamples%5CDLL%5CDLLSample.cpp&amp;line=206">DLLSample.cpp:206</a></a>–<a href="code-analyser://open?path=DLLSample.cpp&amp;line=227"><a class="src-link" href="code-analyser://open?path=E%3A%5CMetaTrader4%5CClient%5CMetaTrader4Terminal%5CDefaults%5CMQL4%5CScripts%5CExamples%5CDLL%5CDLLSample.cpp&amp;line=227">DLLSample.cpp:227</a></a>.</li>
+    <li><code>RateInfo</code> уже содержит больше полей, чем реально доступны через <code>GetRatesItemValue</code>: не экспортируются <code>spread</code> и <code>vol_real</code>. Это делает ABI неполным и намекает на несогласованный дизайн между структурой и API, см. <a href="code-analyser://open?path=DLLSample.cpp&amp;line=23"><a class="src-link" href="code-analyser://open?path=E%3A%5CMetaTrader4%5CClient%5CMetaTrader4Terminal%5CDefaults%5CMQL4%5CScripts%5CExamples%5CDLL%5CDLLSample.cpp&amp;line=23">DLLSample.cpp:23</a></a>–<a href="code-analyser://open?path=DLLSample.cpp&amp;line=24"><a class="src-link" href="code-analyser://open?path=E%3A%5CMetaTrader4%5CClient%5CMetaTrader4Terminal%5CDefaults%5CMQL4%5CScripts%5CExamples%5CDLL%5CDLLSample.cpp&amp;line=24">DLLSample.cpp:24</a></a>, <a href="code-analyser://open?path=DLLSample.cpp&amp;line=148"><a class="src-link" href="code-analyser://open?path=E%3A%5CMetaTrader4%5CClient%5CMetaTrader4Terminal%5CDefaults%5CMQL4%5CScripts%5CExamples%5CDLL%5CDLLSample.cpp&amp;line=148">DLLSample.cpp:148</a></a>–<a href="code-analyser://open?path=DLLSample.cpp&amp;line=163"><a class="src-link" href="code-analyser://open?path=E%3A%5CMetaTrader4%5CClient%5CMetaTrader4Terminal%5CDefaults%5CMQL4%5CScripts%5CExamples%5CDLL%5CDLLSample.cpp&amp;line=163">DLLSample.cpp:163</a></a>.</li>
+  </ul>
+</section>
+
+<section>
+  <h3>Рекомендации</h3>
+  <ul>
+    <li>
+      <p>Добавить единый экспортный заголовок с объявлениями структур, packing, макросом экспорта и точными комментариями по ABI. Это снимет риск расхождения клиента и DLL, см. <a href="code-analyser://open?path=DLLSample.cpp&amp;line=14"><a class="src-link" href="code-analyser://open?path=E%3A%5CMetaTrader4%5CClient%5CMetaTrader4Terminal%5CDefaults%5CMQL4%5CScripts%5CExamples%5CDLL%5CDLLSample.cpp&amp;line=14">DLLSample.cpp:14</a></a>, <a href="code-analyser://open?path=DLLSample.cpp&amp;line=28"><a class="src-link" href="code-analyser://open?path=E%3A%5CMetaTrader4%5CClient%5CMetaTrader4Terminal%5CDefaults%5CMQL4%5CScripts%5CExamples%5CDLL%5CDLLSample.cpp&amp;line=28">DLLSample.cpp:28</a></a>, <a href="code-analyser://open?path=DLLSample.cpp&amp;line=54"><a class="src-link" href="code-analyser://open?path=E%3A%5CMetaTrader4%5CClient%5CMetaTrader4Terminal%5CDefaults%5CMQL4%5CScripts%5CExamples%5CDLL%5CDLLSample.cpp&amp;line=54">DLLSample.cpp:54</a></a>.</p>
+      <pre>#pragma pack(push,1)
+struct RateInfo
+{
+    __int64 ctm;
+    double  open;
+    double  low;
+    double  high;
+    double  close;
+    unsigned __int64 vol_tick;
+    int     spread;
+    unsigned __int64 vol_real;
+};
+#pragma pack(pop)</pre>
+      <pre>// DLLSample.h
+#pragma once
+#include &lt;windows.h&gt;
+
+#define MT4_EXPFUNC extern "C" __declspec(dllexport)
+
+#pragma pack(push,1)
+struct RateInfo { /* ... */ };
+struct MqlStr   { int len; char* string; };
+#pragma pack(pop)</pre>
+    </li>
+
+    <li>
+      <p>Для всех экспортов, где ошибка сейчас маскируется под обычное значение, перейти на схему <code>BOOL/int return + out параметр</code>. Особенно это актуально для <code>GetArrayItemValue</code> и <code>GetRatesItemValue</code>, см. <a href="code-analyser://open?path=DLLSample.cpp&amp;line=78"><a class="src-link" href="code-analyser://open?path=E%3A%5CMetaTrader4%5CClient%5CMetaTrader4Terminal%5CDefaults%5CMQL4%5CScripts%5CExamples%5CDLL%5CDLLSample.cpp&amp;line=78">DLLSample.cpp:78</a></a>–<a href="code-analyser://open?path=DLLSample.cpp&amp;line=98"><a class="src-link" href="code-analyser://open?path=E%3A%5CMetaTrader4%5CClient%5CMetaTrader4Terminal%5CDefaults%5CMQL4%5CScripts%5CExamples%5CDLL%5CDLLSample.cpp&amp;line=98">DLLSample.cpp:98</a></a>, <a href="code-analyser://open?path=DLLSample.cpp&amp;line=127"><a class="src-link" href="code-analyser://open?path=E%3A%5CMetaTrader4%5CClient%5CMetaTrader4Terminal%5CDefaults%5CMQL4%5CScripts%5CExamples%5CDLL%5CDLLSample.cpp&amp;line=127">DLLSample.cpp:127</a></a>–<a href="code-analyser://open?path=DLLSample.cpp&amp;line=165"><a class="src-link" href="code-analyser://open?path=E%3A%5CMetaTrader4%5CClient%5CMetaTrader4Terminal%5CDefaults%5CMQL4%5CScripts%5CExamples%5CDLL%5CDLLSample.cpp&amp;line=165">DLLSample.cpp:165</a></a>.</p>
+      <pre>MT4_EXPFUNC double __stdcall GetArrayItemValue(const double *arr,const int arraysize,const int nitem)
+...
+MT4_EXPFUNC double __stdcall GetRatesItemValue(const RateInfo* rates,const int rates_total,const int shift,const int nrate)</pre>
+      <pre>MT4_EXPFUNC BOOL __stdcall GetArrayItemValue(
+    const double* arr, int arraysize, int nitem, double* out_value)
+{
+    if(arr==NULL || out_value==NULL || arraysize&lt;=0 || nitem&lt;0 || nitem&gt;=arraysize)
+        return FALSE;
+    *out_value = arr[nitem];
+    return TRUE;
+}</pre>
+    </li>
+
+    <li>
+      <p>Исправить строковые функции на bounded-валидацию и документировать, что <code>len</code> включает место под <code>'\0'</code>. Это критично для безопасной работы с памятью, выделенной вне DLL, см. <a href="code-analyser://open?path=DLLSample.cpp&amp;line=191"><a class="src-link" href="code-analyser://open?path=E%3A%5CMetaTrader4%5CClient%5CMetaTrader4Terminal%5CDefaults%5CMQL4%5CScripts%5CExamples%5CDLL%5CDLLSample.cpp&amp;line=191">DLLSample.cpp:191</a></a>–<a href="code-analyser://open?path=DLLSample.cpp&amp;line=230"><a class="src-link" href="code-analyser://open?path=E%3A%5CMetaTrader4%5CClient%5CMetaTrader4Terminal%5CDefaults%5CMQL4%5CScripts%5CExamples%5CDLL%5CDLLSample.cpp&amp;line=230">DLLSample.cpp:230</a></a>.</p>
+      <pre>if(arr[i].len&lt;len1+len2)
+   continue;
+strcat(arr[i].string,arr[i+1].string);</pre>
+      <pre>const int len1 = BoundedStrLen(arr[i].string, arr[i].len);
+const int len2 = BoundedStrLen(arr[i+1].string, arr[i+1].len);
+if(len1 &lt; 0 || len2 &lt; 0)
+    continue;
+if(arr[i].len &lt; (len1 + len2 + 1))
+    continue;
+memcpy(arr[i].string + len1, arr[i+1].string, len2 + 1);</pre>
+    </li>
+
+    <li>
+      <p>Унифицировать типы возвращаемых значений на DLL-границе: использовать <code>BOOL</code> для флагов, <code>int</code> для кодов ошибок, не смешивать их с C++ <code>bool</code>. См. <a href="code-analyser://open?path=DLLSample.cpp&amp;line=102"><a class="src-link" href="code-analyser://open?path=E%3A%5CMetaTrader4%5CClient%5CMetaTrader4Terminal%5CDefaults%5CMQL4%5CScripts%5CExamples%5CDLL%5CDLLSample.cpp&amp;line=102">DLLSample.cpp:102</a></a>–<a href="code-analyser://open?path=DLLSample.cpp&amp;line=123"><a class="src-link" href="code-analyser://open?path=E%3A%5CMetaTrader4%5CClient%5CMetaTrader4Terminal%5CDefaults%5CMQL4%5CScripts%5CExamples%5CDLL%5CDLLSample.cpp&amp;line=123">DLLSample.cpp:123</a></a>.</p>
+      <pre>MT4_EXPFUNC bool _stdcall SetArrayItemValue(double *arr,const int arraysize,const int nitem,const double value)</pre>
+      <pre>MT4_EXPFUNC BOOL __stdcall SetArrayItemValue(double* arr, int arraysize, int nitem, double value);</pre>
+    </li>
+
+    <li>
+      <p>Сделать имена и диагностику согласованными: поправить сообщения об ошибках, стиль calling convention и добавить <code>extern "C"</code> в экспортный макрос для отсутствия C++ name mangling. Это важно для внешних клиентов и удобства поиска проблем, см. <a href="code-analyser://open?path=DLLSample.cpp&amp;line=10"><a class="src-link" href="code-analyser://open?path=E%3A%5CMetaTrader4%5CClient%5CMetaTrader4Terminal%5CDefaults%5CMQL4%5CScripts%5CExamples%5CDLL%5CDLLSample.cpp&amp;line=10">DLLSample.cpp:10</a></a>, <a href="code-analyser://open?path=DLLSample.cpp&amp;line=102"><a class="src-link" href="code-analyser://open?path=E%3A%5CMetaTrader4%5CClient%5CMetaTrader4Terminal%5CDefaults%5CMQL4%5CScripts%5CExamples%5CDLL%5CDLLSample.cpp&amp;line=102">DLLSample.cpp:102</a></a>, <a href="code-analyser://open?path=DLLSample.cpp&amp;line=107"><a class="src-link" href="code-analyser://open?path=E%3A%5CMetaTrader4%5CClient%5CMetaTrader4Terminal%5CDefaults%5CMQL4%5CScripts%5CExamples%5CDLL%5CDLLSample.cpp&amp;line=107">DLLSample.cpp:107</a></a>.</p>
+      <pre>#define MT4_EXPFUNC __declspec(dllexport)
+...
+MT4_EXPFUNC bool _stdcall SetArrayItemValue(...)
+...
+printf("GetArrayItemValue: NULL array\n");</pre>
+      <pre>#define MT4_EXPFUNC extern "C" __declspec(dllexport)
+
+MT4_EXPFUNC BOOL __stdcall SetArrayItemValue(...)
+
+printf("SetArrayItemValue: NULL array\n");</pre>
+    </li>
+  </ul>
+</section>
+  </div>
+</section>
+
+      </main>
+    </div>
+  </div>
+</body>
+</html>
