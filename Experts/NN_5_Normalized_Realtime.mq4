@@ -665,6 +665,7 @@ void DrawLinesPredict()
    {
       double x1 = Time[predictBars - i + 1];
       double y1 = i - 1 < 0 ? (yValues[trainSize - p - 1] * rangeP + minPrice) : (predictValues[i-1] * rangeP + minPrice);
+      double x2 = Time[predictBars - i];
       double y2 = predictValues[i] * rangeP + minPrice;
 
       int id = ObjectCreate("Predict" + i, OBJ_TREND, 0, x1, y1, x2, y2);
