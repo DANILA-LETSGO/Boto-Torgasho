@@ -6,27 +6,28 @@
 #property copyright   "Copyright 2026, Antigravity AI Team."
 #property link        "https://antigravity"
 #property version     "1.00"
-#property description "EMA Crossover & RSI Scalper with ATR Risk Management"
+#property description "Bollinger Bands & RSI Scalper with ATR Risk Management"
 #property strict
 
 //--- Input Parameters - Strategy
 input string      Section_Strategy  = "=== STRATEGY SETTINGS ==="; // ----------------------------
-input int         FastEMAPeriod     = 9;          // Fast EMA Period
-input int         SlowEMAPeriod     = 21;         // Slow EMA Period
-input int         TrendEMAPeriod    = 200;        // Trend Filter EMA Period (0 to disable)
+input int         BBPeriod          = 20;         // Bollinger Bands Period
+input double      BBDeviation       = 2.0;        // Bollinger Bands Deviation
 input int         RSIPeriod         = 14;         // RSI Period
 input double      RSIOverbought     = 70.0;       // RSI Overbought Level
 input double      RSIOversold       = 30.0;       // RSI Oversold Level
 input bool        UseRSIFilter      = true;       // Use RSI filter for entries
+input bool        UseTrendFilter    = false;      // Filter trades by long-term trend (200 EMA)
+input int         TrendEMAPeriod    = 200;        // Trend Filter EMA Period (if UseTrendFilter=true)
 
 //--- Input Parameters - Risk Management
 input string      Section_Risk      = "=== RISK & MONEY MANAGEMENT ==="; // ----------------------------
 input double      RiskPercent       = 1.5;        // Risk Percent per Trade (0 for Fixed Lots)
 input double      FixedLotSize      = 0.1;        // Fixed Lot Size (if RiskPercent = 0)
 input int         ATRPeriod         = 14;         // ATR Period for SL/TP
-input double      ATR_SL_Multiplier = 1.5;        // ATR Multiplier for Stop Loss
-input double      ATR_TP_Multiplier = 2.5;        // ATR Multiplier for Take Profit
-input double      MinStopLossPoints = 150.0;      // Minimum Stop Loss (in Points)
+input double      ATR_SL_Multiplier = 2.0;        // ATR Multiplier for Stop Loss
+input double      ATR_TP_Multiplier = 2.0;        // ATR Multiplier for Take Profit
+input double      MinStopLossPoints = 100.0;      // Minimum Stop Loss (in Points)
 input double      MaxStopLossPoints = 800.0;      // Maximum Stop Loss (in Points)
 input double      MaxSpreadPoints   = 30.0;       // Maximum allowed Spread (in Points)
 
@@ -62,9 +63,9 @@ datetime lastBarTime = 0;
 int OnInit()
 {
    // Check settings
-   if(FastEMAPeriod >= SlowEMAPeriod)
+   if(BBPeriod <= 0 || BBDeviation <= 0)
    {
-      Alert("Error: Fast EMA Period must be smaller than Slow EMA Period!");
+      Alert("Error: BBPeriod and BBDeviation must be greater than 0!");
       return(INIT_PARAMETERS_INCORRECT);
    }
    
@@ -357,23 +358,19 @@ void OnTick()
    }
    
    // 5. Calculate indicators (evaluated on closed bars to prevent repaint issues)
-   double emaFast1 = iMA(Symbol(), Period(), FastEMAPeriod, 0, MODE_EMA, PRICE_CLOSE, 1);
-   double emaFast2 = iMA(Symbol(), Period(), FastEMAPeriod, 0, MODE_EMA, PRICE_CLOSE, 2);
-   
-   double emaSlow1 = iMA(Symbol(), Period(), SlowEMAPeriod, 0, MODE_EMA, PRICE_CLOSE, 1);
-   double emaSlow2 = iMA(Symbol(), Period(), SlowEMAPeriod, 0, MODE_EMA, PRICE_CLOSE, 2);
+   double bbLower1 = iBands(Symbol(), Period(), BBPeriod, BBDeviation, 0, PRICE_CLOSE, MODE_LOWER, 1);
+   double bbUpper1 = iBands(Symbol(), Period(), BBPeriod, BBDeviation, 0, PRICE_CLOSE, MODE_UPPER, 1);
    
    double rsi1 = iRSI(Symbol(), Period(), RSIPeriod, PRICE_CLOSE, 1);
    double atr1 = iATR(Symbol(), Period(), ATRPeriod, 1);
    
    // Trend Filter
-   double trendEma1 = 0;
    bool isTrendUp = true;
    bool isTrendDown = true;
    
-   if(TrendEMAPeriod > 0)
+   if(UseTrendFilter && TrendEMAPeriod > 0)
    {
-      trendEma1 = iMA(Symbol(), Period(), TrendEMAPeriod, 0, MODE_EMA, PRICE_CLOSE, 1);
+      double trendEma1 = iMA(Symbol(), Period(), TrendEMAPeriod, 0, MODE_EMA, PRICE_CLOSE, 1);
       isTrendUp = (Close[1] > trendEma1);
       isTrendDown = (Close[1] < trendEma1);
    }
@@ -384,13 +381,13 @@ void OnTick()
    
    if(UseRSIFilter)
    {
-      isRsiBuy = (rsi1 > 50.0 && rsi1 < RSIOverbought);
-      isRsiSell = (rsi1 < 50.0 && rsi1 > RSIOversold);
+      isRsiBuy = (rsi1 <= RSIOversold);
+      isRsiSell = (rsi1 >= RSIOverbought);
    }
    
    // 6. Signal evaluation
-   bool signalBuy  = (emaFast2 <= emaSlow2 && emaFast1 > emaSlow1) && isTrendUp && isRsiBuy;
-   bool signalSell = (emaFast2 >= emaSlow2 && emaFast1 < emaSlow1) && isTrendDown && isRsiSell;
+   bool signalBuy  = (Close[1] < bbLower1) && isRsiBuy && isTrendUp;
+   bool signalSell = (Close[1] > bbUpper1) && isRsiSell && isTrendDown;
    
    double stopLevel = MarketInfo(Symbol(), MODE_STOPLEVEL) * Point;
    
