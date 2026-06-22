@@ -19,6 +19,7 @@ input double      RSIOversold       = 30.0;       // RSI Oversold Level
 input bool        UseRSIFilter      = true;       // Use RSI filter for entries
 input bool        UseTrendFilter    = false;      // Filter trades by long-term trend (200 EMA)
 input int         TrendEMAPeriod    = 200;        // Trend Filter EMA Period (if UseTrendFilter=true)
+input bool        EnterOnReturn     = true;       // Enter on return inside bands (reversal confirmation)
 
 //--- Input Parameters - Risk Management
 input string      Section_Risk      = "=== RISK & MONEY MANAGEMENT ==="; // ----------------------------
@@ -69,14 +70,8 @@ int OnInit()
       return(INIT_PARAMETERS_INCORRECT);
    }
    
-   if(UseRSIFilter && (RSIOverbought <= 50.0 || RSIOversold >= 50.0))
-   {
-      Alert("Error: RSI Overbought should be > 50 and RSI Oversold should be < 50!");
-      return(INIT_PARAMETERS_INCORRECT);
-   }
-
-   // Initialize lastBarTime to the current bar time
-   lastBarTime = iTime(Symbol(), Period(), 0);
+    // Initialize lastBarTime to the current bar time
+    lastBarTime = iTime(Symbol(), Period(), 0);
    
    Print("Antigravity_Scalper initialized successfully on ", Symbol(), ", Period: ", Period());
    return(INIT_SUCCEEDED);
@@ -360,8 +355,11 @@ void OnTick()
    // 5. Calculate indicators (evaluated on closed bars to prevent repaint issues)
    double bbLower1 = iBands(Symbol(), Period(), BBPeriod, BBDeviation, 0, PRICE_CLOSE, MODE_LOWER, 1);
    double bbUpper1 = iBands(Symbol(), Period(), BBPeriod, BBDeviation, 0, PRICE_CLOSE, MODE_UPPER, 1);
+   double bbLower2 = iBands(Symbol(), Period(), BBPeriod, BBDeviation, 0, PRICE_CLOSE, MODE_LOWER, 2);
+   double bbUpper2 = iBands(Symbol(), Period(), BBPeriod, BBDeviation, 0, PRICE_CLOSE, MODE_UPPER, 2);
    
    double rsi1 = iRSI(Symbol(), Period(), RSIPeriod, PRICE_CLOSE, 1);
+   double rsi2 = iRSI(Symbol(), Period(), RSIPeriod, PRICE_CLOSE, 2);
    double atr1 = iATR(Symbol(), Period(), ATRPeriod, 1);
    
    // Trend Filter
@@ -375,19 +373,30 @@ void OnTick()
       isTrendDown = (Close[1] < trendEma1);
    }
    
-   // RSI Filter
+   // RSI Filter (checks bar 1 or bar 2 to catch the overbought/oversold momentum shift)
    bool isRsiBuy = true;
    bool isRsiSell = true;
    
    if(UseRSIFilter)
    {
-      isRsiBuy = (rsi1 <= RSIOversold);
-      isRsiSell = (rsi1 >= RSIOverbought);
+      isRsiBuy = (rsi1 <= RSIOversold || rsi2 <= RSIOversold);
+      isRsiSell = (rsi1 >= RSIOverbought || rsi2 >= RSIOverbought);
    }
    
    // 6. Signal evaluation
-   bool signalBuy  = (Close[1] < bbLower1) && isRsiBuy && isTrendUp;
-   bool signalSell = (Close[1] > bbUpper1) && isRsiSell && isTrendDown;
+   bool signalBuy  = false;
+   bool signalSell = false;
+   
+   if(EnterOnReturn)
+   {
+      signalBuy  = (Close[2] <= bbLower2 && Close[1] > bbLower1) && isRsiBuy && isTrendUp;
+      signalSell = (Close[2] >= bbUpper2 && Close[1] < bbUpper1) && isRsiSell && isTrendDown;
+   }
+   else
+   {
+      signalBuy  = (Close[1] < bbLower1) && isRsiBuy && isTrendUp;
+      signalSell = (Close[1] > bbUpper1) && isRsiSell && isTrendDown;
+   }
    
    double stopLevel = MarketInfo(Symbol(), MODE_STOPLEVEL) * Point;
    
