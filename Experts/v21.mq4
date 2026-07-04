@@ -9,7 +9,7 @@
 #property strict
 
 #define p 36
-#define countHiddenNeuron 24
+#define countHiddenNeuron 10
 #define countClasses 7
 #define trainSize 1536
 
@@ -18,7 +18,7 @@ input bool readInitData = false;
 input int takeProfit = 300;
 input int stopLoss = 400;
 input int predictHorizon = 8;
-input int predictShift = 2; // Пропуск первых N баров предсказания
+input int predictShift = 2;
 input int classExtremeThreshold = 500;
 input int classStrongThreshold = 200; // Порог сильного движения (пункты)
 input int classWeakThreshold = 50;    // Порог слабого движения (пункты)
