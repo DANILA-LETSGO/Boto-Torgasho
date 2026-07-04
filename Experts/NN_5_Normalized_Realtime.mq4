@@ -11,7 +11,7 @@
 
 #define p 48
 #define countHiddenNeuron 8
-#define trainSize 512
+#define trainSize 2048
 #define predictBars 49
 
 input double tpMultiplier = 1.0;

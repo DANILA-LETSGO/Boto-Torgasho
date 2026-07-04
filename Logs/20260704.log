@@ -1,0 +1,19 @@
+0	21:57:56.401	Expert NN_5_Normalized_Realtime EURUSD,H1: loaded successfully
+0	21:57:56.401	NN_5_Normalized_Realtime EURUSD,H1 inputs: tpMultiplier=1.0; readInitData=false; takeProfit=100; stopLoss=150; orderThresold=80; pass=30; countPredictAnalysys=6; predictShift=3; wRange=0.28; isRealtime=false; saveLearningProgress=false; ovverideSaveFile=false; saveTimerThresold=100; allowSkipTrain=false; MaxSkipBars=88; aStep=0.01; MaxTradeErrorPct=6.5; MaxTeachErrorPct=12.0; 
+0	21:58:04.700	NN_5_Normalized_Realtime EURUSD,H1: Dynamic thresholds calculated. Trade threshold: 412.3600000000001, Teach threshold: 1405.44
+0	21:58:04.966	NN_5_Normalized_Realtime EURUSD,H1: Data successfully written to: weightsHidden.txt
+0	21:58:05.106	NN_5_Normalized_Realtime EURUSD,H1: Data successfully written to: thresoldsHidden.txt
+0	21:58:05.106	NN_5_Normalized_Realtime EURUSD,H1: Data successfully written to: weightsOutputLayer.txt
+0	21:58:05.106	NN_5_Normalized_Realtime EURUSD,H1: Weights initialized successfully.
+0	21:58:05.106	NN_5_Normalized_Realtime EURUSD,H1: initialized
+0	22:10:39.914	NN_5_Normalized_Realtime EURUSD,H1: uninit reason 2
+0	22:10:39.914	Expert NN_5_Normalized_Realtime EURUSD,H1: removed
+0	22:10:39.961	Expert NN_5_Normalized_Realtime EURUSD,H1: loaded successfully
+0	22:10:39.992	NN_5_Normalized_Realtime EURUSD,H1: Dynamic thresholds calculated. Trade threshold: 845.0000000000001, Teach threshold: 2880.0
+0	22:10:40.336	NN_5_Normalized_Realtime EURUSD,H1: Data successfully written to: weightsHidden.txt
+0	22:10:40.351	NN_5_Normalized_Realtime EURUSD,H1: Data successfully written to: thresoldsHidden.txt
+0	22:10:40.351	NN_5_Normalized_Realtime EURUSD,H1: Data successfully written to: weightsOutputLayer.txt
+0	22:10:40.351	NN_5_Normalized_Realtime EURUSD,H1: Weights initialized successfully.
+0	22:10:40.351	NN_5_Normalized_Realtime EURUSD,H1: initialized
+0	22:38:16.342	NN_5_Normalized_Realtime EURUSD,H1: uninit reason 9
+0	22:38:16.467	Expert NN_5_Normalized_Realtime EURUSD,H1: removed
