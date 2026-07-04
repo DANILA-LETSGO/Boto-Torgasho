@@ -41,6 +41,7 @@ input double tradeErrThresold = 0.110;
 input int trainBuffer = 136; // Кол-во свежих баров, которые НЕ используются при обучении (тестовый буфер)
 input int fontSize = 14;     // Размер шрифта инфопанели
 input int lineSpacing = 25;  // Межстрочный интервал инфопанели
+input color infoTextColor = clrNONE; // Цвет текста (clrNONE = авто)
 
 // p+10 входов: 36 дельт + Range + RSI(14) + RSI(7) + sin(time) + MA_Fast_Norm + MA_Slow_Norm + MA_Fast_Slope + MA_Slow_Slope + ATR(14) + cos(time)
 double weightsHidden[countHiddenNeuron][p+10]; 
@@ -886,7 +887,8 @@ void OnTick()
     }
 
    string status = (errGlobal < tradeErrThresold) ? "[OK] READY (Trading)" : "[!] LEARNING";
-   color txtColor = (color)ChartGetInteger(0, CHART_COLOR_FOREGROUND);
+   color txtColor = infoTextColor;
+   if(txtColor == clrNONE) txtColor = (color)ChartGetInteger(0, CHART_COLOR_FOREGROUND);
    ChartSetInteger(0, CHART_FOREGROUND, false);
    
    string lines[15];
