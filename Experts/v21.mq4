@@ -533,7 +533,10 @@ void Train()
          double targetVector[countClasses]; ArrayInitialize(targetVector, 0); targetVector[targetClass] = 1.0;
          targetVector[targetClass] = 1.0;
          
-         double expectedPoints = probsTrain[0] * (-classExtremeThreshold) + probsTrain[1] * (-classStrongThreshold) + probsTrain[2] * (-classWeakThreshold) + probsTrain[3] * 0 + probsTrain[4] * classWeakThreshold + probsTrain[5] * classStrongThreshold + probsTrain[6] * classExtremeThreshold;
+         double midExtreme = classExtremeThreshold * 1.5;
+         double midStrong = (classExtremeThreshold + classStrongThreshold) / 2.0;
+         double midWeak = (classStrongThreshold + classWeakThreshold) / 2.0;
+         double expectedPoints = probsTrain[0] * (-midExtreme) + probsTrain[1] * (-midStrong) + probsTrain[2] * (-midWeak) + probsTrain[3] * 0 + probsTrain[4] * midWeak + probsTrain[5] * midStrong + probsTrain[6] * midExtreme;
          yValues[iSample] = expectedPoints * _Point;
          
          double weightPenalty = (targetClass == 3) ? penaltyFlat : 1.0;
