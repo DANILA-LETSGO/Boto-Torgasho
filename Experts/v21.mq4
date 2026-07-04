@@ -811,40 +811,59 @@ void Trade()
 
    ebobo = false;
 
+   double absExpected = MathAbs(pointsExpected);
+   double baseTP = absExpected;
+   double baseSL = absExpected / 2.0; 
+   
+   double minStop = MarketInfo(_Symbol, MODE_STOPLEVEL);
+   if(minStop < 30) minStop = 30;
+
    if(pointsExpected >= classExtremeThreshold && !hasBuy)
      {
-      double sl = NormalizeDouble(Bid - (stopLoss * 1.5) * _Point, _Digits);
-      double tp = NormalizeDouble(Bid + takeProfit * 2 * _Point, _Digits);
+      double sl_pts = baseSL * 1.5; if(sl_pts < minStop) sl_pts = minStop;
+      double tp_pts = baseTP * 2.0; if(tp_pts < minStop) tp_pts = minStop;
+      double sl = NormalizeDouble(Bid - sl_pts * _Point, _Digits);
+      double tp = NormalizeDouble(Bid + tp_pts * _Point, _Digits);
       ticket = OrderSend(_Symbol, OP_BUY, 0.1, Ask, 30, sl, tp, "Extreme BUY", magicNumber);
      }
    else if(pointsExpected <= -classExtremeThreshold && !hasSell)
      {
-      double sl = NormalizeDouble(Ask + (stopLoss * 1.5) * _Point, _Digits);
-      double tp = NormalizeDouble(Ask - takeProfit * 2 * _Point, _Digits);
+      double sl_pts = baseSL * 1.5; if(sl_pts < minStop) sl_pts = minStop;
+      double tp_pts = baseTP * 2.0; if(tp_pts < minStop) tp_pts = minStop;
+      double sl = NormalizeDouble(Ask + sl_pts * _Point, _Digits);
+      double tp = NormalizeDouble(Ask - tp_pts * _Point, _Digits);
       ticket = OrderSend(_Symbol, OP_SELL, 0.1, Bid, 30, sl, tp, "Extreme SELL", magicNumber);
      }
    else if(pointsExpected >= classStrongThreshold && !hasBuy)
      {
-      double sl = NormalizeDouble(Bid - stopLoss * _Point, _Digits);
-      double tp = NormalizeDouble(Bid + takeProfit * _Point, _Digits);
+      double sl_pts = baseSL * 1.0; if(sl_pts < minStop) sl_pts = minStop;
+      double tp_pts = baseTP * 1.0; if(tp_pts < minStop) tp_pts = minStop;
+      double sl = NormalizeDouble(Bid - sl_pts * _Point, _Digits);
+      double tp = NormalizeDouble(Bid + tp_pts * _Point, _Digits);
       ticket = OrderSend(_Symbol, OP_BUY, 0.1, Ask, 30, sl, tp, "Strong BUY", magicNumber);
      }
    else if(pointsExpected <= -classStrongThreshold && !hasSell)
      {
-      double sl = NormalizeDouble(Ask + stopLoss * _Point, _Digits);
-      double tp = NormalizeDouble(Ask - takeProfit * _Point, _Digits);
+      double sl_pts = baseSL * 1.0; if(sl_pts < minStop) sl_pts = minStop;
+      double tp_pts = baseTP * 1.0; if(tp_pts < minStop) tp_pts = minStop;
+      double sl = NormalizeDouble(Ask + sl_pts * _Point, _Digits);
+      double tp = NormalizeDouble(Ask - tp_pts * _Point, _Digits);
       ticket = OrderSend(_Symbol, OP_SELL, 0.1, Bid, 30, sl, tp, "Strong SELL", magicNumber);
      }
    else if(pointsExpected >= classWeakThreshold && !hasBuy)
      {
-      double sl = NormalizeDouble(Bid - (stopLoss / 2) * _Point, _Digits);
-      double tp = NormalizeDouble(Bid + (takeProfit / 2) * _Point, _Digits);
+      double sl_pts = baseSL / 2.0; if(sl_pts < minStop) sl_pts = minStop;
+      double tp_pts = baseTP / 2.0; if(tp_pts < minStop) tp_pts = minStop;
+      double sl = NormalizeDouble(Bid - sl_pts * _Point, _Digits);
+      double tp = NormalizeDouble(Bid + tp_pts * _Point, _Digits);
       ticket = OrderSend(_Symbol, OP_BUY, 0.1, Ask, 30, sl, tp, "Weak BUY", magicNumber);
      }
    else if(pointsExpected <= -classWeakThreshold && !hasSell)
      {
-      double sl = NormalizeDouble(Ask + (stopLoss / 2) * _Point, _Digits);
-      double tp = NormalizeDouble(Ask - (takeProfit / 2) * _Point, _Digits);
+      double sl_pts = baseSL / 2.0; if(sl_pts < minStop) sl_pts = minStop;
+      double tp_pts = baseTP / 2.0; if(tp_pts < minStop) tp_pts = minStop;
+      double sl = NormalizeDouble(Ask + sl_pts * _Point, _Digits);
+      double tp = NormalizeDouble(Ask - tp_pts * _Point, _Digits);
       ticket = OrderSend(_Symbol, OP_SELL, 0.1, Bid, 30, sl, tp, "Weak SELL", magicNumber);
      }
   }
