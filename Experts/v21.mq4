@@ -39,6 +39,11 @@ input bool onlyOneOrder = true;
 input int magicNumber = 123456;
 input double tradeErrThresold = 0.110;
 input int trainBuffer = 136; // Кол-во свежих баров, которые НЕ используются при обучении (тестовый буфер)
+
+input bool useTrailingStop = false; // Включить трейлинг-стоп?
+input int trailingStart = 300;      // При какой прибыли в пунктах включать трейлинг
+input int trailingStep = 50;        // Шаг подтягивания стопа (пункты)
+
 input int fontSize = 14;     // Размер шрифта инфопанели
 input int lineSpacing = 25;  // Межстрочный интервал инфопанели
 input color infoTextColor = clrNONE; // Цвет текста (clrNONE = авто)
@@ -814,11 +819,56 @@ void Trade()
   }
 
 //+------------------------------------------------------------------+
+//| Manage Trailing Stop                                             |
+//+------------------------------------------------------------------+
+void ManageTrailingStop()
+  {
+   if(!useTrailingStop) return;
+   
+   double minStop = MarketInfo(_Symbol, MODE_STOPLEVEL);
+   double tStart = (trailingStart < minStop) ? minStop : trailingStart;
+   
+   for(int i = OrdersTotal() - 1; i >= 0; i--)
+     {
+      if(OrderSelect(i, SELECT_BY_POS, MODE_TRADES))
+        {
+         if(OrderSymbol() == _Symbol && OrderMagicNumber() == magicNumber)
+           {
+            if(OrderType() == OP_BUY)
+              {
+               if(Bid - OrderOpenPrice() > tStart * _Point)
+                 {
+                  double newSL = NormalizeDouble(Bid - tStart * _Point, _Digits);
+                  if(OrderStopLoss() < newSL - trailingStep * _Point || OrderStopLoss() == 0)
+                    {
+                     bool res = OrderModify(OrderTicket(), OrderOpenPrice(), newSL, OrderTakeProfit(), 0, clrGreen);
+                    }
+                 }
+              }
+            else if(OrderType() == OP_SELL)
+              {
+               if(OrderOpenPrice() - Ask > tStart * _Point)
+                 {
+                  double newSL = NormalizeDouble(Ask + tStart * _Point, _Digits);
+                  if(OrderStopLoss() > newSL + trailingStep * _Point || OrderStopLoss() == 0)
+                    {
+                     bool res = OrderModify(OrderTicket(), OrderOpenPrice(), newSL, OrderTakeProfit(), 0, clrRed);
+                    }
+                 }
+              }
+           }
+        }
+     }
+  }
+
+//+------------------------------------------------------------------+
 //| Main Tick Event                                                  |
 //+------------------------------------------------------------------+
 void OnTick()
   {
    if(Bars < trainSize + 50) return;
+   
+   ManageTrailingStop();
    
    if(IsNewBar())
      {
