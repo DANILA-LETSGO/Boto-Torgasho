@@ -119,13 +119,13 @@ void InitWeights()
    if(readInitData)
      {
       string strWeightsHidden;
-      int handle = FileOpen("Exp20_weightsHidden_" + IntegerToString(magicNumber) + "_" + IntegerToString(0) + "_" + DoubleToString(tpMultiplier, 1) + "_" + IntegerToString(p+7) + "_" + IntegerToString(countHiddenNeuron) + ".txt", FILE_TXT|FILE_READ);
+      int handle = FileOpen("Exp20_weightsHidden_" + IntegerToString(magicNumber) + "_" + IntegerToString(0) + "_" + DoubleToString(tpMultiplier, 1) + "_" + IntegerToString(p+9) + "_" + IntegerToString(countHiddenNeuron) + ".txt", FILE_TXT|FILE_READ);
       if(handle > 0)
         {
          strWeightsHidden = FileReadString(handle);
          string result[];
          int k = StringSplit(strWeightsHidden, '|', result) - 1;
-         if(k/2 != countHiddenNeuron * (p+8))
+         if(k/2 != countHiddenNeuron * (p+10))
            {
             Print("!!!!!!!!!!!!! ПИЗДЕЦ !!!!!!!!!!!! ПИЗДЕЦ !!!!!!!!!!!! ПИЗДЕЦ !!!!!!!!!!!! ПИЗДЕЦ !!!!!!!!!!!!");
            }
@@ -133,7 +133,7 @@ void InitWeights()
            {
             int idxRead = 0;
             for(int i=0; i < countHiddenNeuron; i++)
-               for(int j=0; j <= p+7; j++)
+               for(int j=0; j <= p+9; j++)
                  {
                   weightsHidden[i][j] = StringToDouble(result[idxRead*2]);
                   idxRead++;
@@ -149,7 +149,7 @@ void InitWeights()
          string opta = "";
          for(int i=0; i<countHiddenNeuron; i++)
            {
-            for(int j=0; j<=p+7; j++) weightsHidden[i][j] = RandomDouble(-wRange, wRange);
+            for(int j=0; j<=p+9; j++) weightsHidden[i][j] = RandomDouble(-wRange, wRange);
             thresoldsHidden[i] = RandomDouble(-wRange, wRange);
            }
          for(int c=0; c<countClasses; c++)
@@ -200,7 +200,7 @@ void InitWeights()
       string opta = "";
       for(int i=0; i<countHiddenNeuron; i++)
         {
-         for(int j=0; j<=p+7; j++)
+         for(int j=0; j<=p+9; j++)
            {
             weightsHidden[i][j] = RandomDouble(-wRange, wRange);
             opta += weightsHidden[i][j] + "|=|";
@@ -212,7 +212,7 @@ void InitWeights()
          for(int i=0; i<countHiddenNeuron; i++) weightsOutputLayer[c][i] = RandomDouble(-0.5, 0.5);
          thresoldOutputLayer[c] = RandomDouble(-0.5, 0.5);
         }
-      WriteToFile(opta, "Exp20_weightsHidden_" + IntegerToString(magicNumber) + "_" + IntegerToString(0) + "_" + DoubleToString(tpMultiplier, 1) + "_" + IntegerToString(p+7) + "_" + IntegerToString(countHiddenNeuron) + ".txt");
+      WriteToFile(opta, "Exp20_weightsHidden_" + IntegerToString(magicNumber) + "_" + IntegerToString(0) + "_" + DoubleToString(tpMultiplier, 1) + "_" + IntegerToString(p+9) + "_" + IntegerToString(countHiddenNeuron) + ".txt");
    
       SaveThresoldsHidden(false);
       SaveWeightsOutputLayer(false);
@@ -241,10 +241,10 @@ void SaveWeightsHiddenLayer(bool isLearning)
   {
    string data = "";
    for(int i=0; i<countHiddenNeuron; i++)
-      for(int j=0; j<=p+7; j++)
+      for(int j=0; j<=p+9; j++)
          data += weightsHidden[i][j] + "|=|";
-   if(isLearning) WriteToFile(data, "L_Exp20_weightsHidden_" + IntegerToString(magicNumber) + "_" + IntegerToString(0) + "_" + DoubleToString(tpMultiplier, 1) + "_" + IntegerToString(p+7) + "_" + IntegerToString(countHiddenNeuron) + ".txt");
-   else WriteToFile(data, "Exp20_weightsHidden_" + IntegerToString(magicNumber) + "_" + IntegerToString(0) + "_" + DoubleToString(tpMultiplier, 1) + "_" + IntegerToString(p+7) + "_" + IntegerToString(countHiddenNeuron) + ".txt");
+   if(isLearning) WriteToFile(data, "L_Exp20_weightsHidden_" + IntegerToString(magicNumber) + "_" + IntegerToString(0) + "_" + DoubleToString(tpMultiplier, 1) + "_" + IntegerToString(p+9) + "_" + IntegerToString(countHiddenNeuron) + ".txt");
+   else WriteToFile(data, "Exp20_weightsHidden_" + IntegerToString(magicNumber) + "_" + IntegerToString(0) + "_" + DoubleToString(tpMultiplier, 1) + "_" + IntegerToString(p+9) + "_" + IntegerToString(countHiddenNeuron) + ".txt");
   }
 
 void SaveThresoldsHidden(bool isLearning)
