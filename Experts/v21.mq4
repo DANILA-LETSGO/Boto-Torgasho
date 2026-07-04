@@ -458,6 +458,11 @@ void Train()
      {
       countTeaches++;
       errGlobal = 0;
+      double grad_wOut[countClasses][countHiddenNeuron]; ArrayInitialize(grad_wOut, 0);
+      double grad_tOut[countClasses]; ArrayInitialize(grad_tOut, 0);
+      double grad_wHid[countHiddenNeuron][p+10]; ArrayInitialize(grad_wHid, 0);
+      double grad_tHid[countHiddenNeuron]; ArrayInitialize(grad_tHid, 0);
+      
       for(int iSample=0; iSample <= maxSample; iSample++)
         {
          double localMin = 999999;
