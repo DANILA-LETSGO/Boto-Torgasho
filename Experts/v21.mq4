@@ -39,6 +39,7 @@ input bool onlyOneOrder = true;
 input int magicNumber = 123456;
 input double tradeErrThresold = 0.110;
 input int trainBuffer = 136; // Кол-во свежих баров, которые НЕ используются при обучении (тестовый буфер)
+input int fontSize = 14;     // Размер шрифта инфопанели
 
 // p+10 входов: 36 дельт + Range + RSI(14) + RSI(7) + sin(time) + MA_Fast_Norm + MA_Slow_Norm + MA_Fast_Slope + MA_Slow_Slope + ATR(14) + cos(time)
 double weightsHidden[countHiddenNeuron][p+10]; 
@@ -916,7 +917,7 @@ void OnTick()
       ObjectSetInteger(0, objName, OBJPROP_YDISTANCE, 20 + k * 35);
       ObjectSetString(0, objName, OBJPROP_TEXT, lines[k]);
       ObjectSetString(0, objName, OBJPROP_FONT, "Arial");
-      ObjectSetInteger(0, objName, OBJPROP_FONTSIZE, 16);
+      ObjectSetInteger(0, objName, OBJPROP_FONTSIZE, fontSize);
       ObjectSetInteger(0, objName, OBJPROP_COLOR, txtColor);
       ObjectSetInteger(0, objName, OBJPROP_BACK, false);
      }
