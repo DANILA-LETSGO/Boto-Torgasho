@@ -677,14 +677,12 @@ void Train()
 void Predict()
   {
    ArrayInitialize(predictedProbs, 0.0);
-   int countProbs = 0;
 
-   for(int k=predictShift; k<predictHorizon; k++)
+   int shiftBack = 0;
+   int iSample = trainSize - 1 - shiftBack;
+   
+   if(iSample >= p)
      {
-      int shiftBack = predictHorizon - 1 - k;
-      int iSample = trainSize - 1 - shiftBack;
-      if(iSample < p) continue;
-      
       double localMin = etalons[iSample - p + 1];
       double localMax = etalons[iSample - p + 1];
       for(int j=1; j<p; j++)
@@ -743,18 +741,15 @@ void Predict()
       double maxOut = outOutput[0];
       for(int c=1; c<countClasses; c++) if(outOutput[c] > maxOut) maxOut = outOutput[c];
       double sumExp = 0;
-      double tempProbs[countClasses]; ArrayInitialize(tempProbs, 0);
-      for(int c=0; c<countClasses; c++) { tempProbs[c] = MathExp(outOutput[c] - maxOut); sumExp += tempProbs[c]; }
-      for(int c=0; c<countClasses; c++) { tempProbs[c] /= sumExp; predictedProbs[c] += tempProbs[c]; }
-      countProbs++;
+      for(int c=0; c<countClasses; c++) { predictedProbs[c] = MathExp(outOutput[c] - maxOut); sumExp += predictedProbs[c]; }
+      for(int c=0; c<countClasses; c++) { predictedProbs[c] /= sumExp; }
      }
 
-   if(countProbs > 0)
-     {
-      for(int c=0; c<countClasses; c++) predictedProbs[c] /= (double)countProbs;
-     }
+   double midExtreme = classExtremeThreshold * 1.5;
+   double midStrong = (classExtremeThreshold + classStrongThreshold) / 2.0;
+   double midWeak = (classStrongThreshold + classWeakThreshold) / 2.0;
 
-   double expectedPoints = predictedProbs[0] * (-classExtremeThreshold) + predictedProbs[1] * (-classStrongThreshold) + predictedProbs[2] * (-classWeakThreshold) + predictedProbs[3] * 0 + predictedProbs[4] * classWeakThreshold + predictedProbs[5] * classStrongThreshold + predictedProbs[6] * classExtremeThreshold;
+   double expectedPoints = predictedProbs[0] * (-midExtreme) + predictedProbs[1] * (-midStrong) + predictedProbs[2] * (-midWeak) + predictedProbs[3] * 0 + predictedProbs[4] * midWeak + predictedProbs[5] * midStrong + predictedProbs[6] * midExtreme;
    predictedDelta = expectedPoints * _Point;
 
    if(errGlobal < tradeErrThresold)
