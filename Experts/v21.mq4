@@ -44,6 +44,7 @@ input bool useTrailingStop = false; // Включить трейлинг-сто�
 input int trailingStart = 300;      // При какой прибыли в пунктах включать трейлинг
 input int trailingStep = 50;        // Шаг подтягивания стопа (пункты)
 
+input bool useFixedSeed = true; // Использовать фиксированное зерно?
 input int randomSeed = 1;    // Зерно для генератора весов (мозга)
 input int fontSize = 14;     // Размер шрифта инфопанели
 input int lineSpacing = 25;  // Межстрочный интервал инфопанели
@@ -104,7 +105,7 @@ int fastPassCounter;
 //+------------------------------------------------------------------+
 int OnInit()
   {
-   MathSrand(randomSeed);
+   if(useFixedSeed) MathSrand(randomSeed);
    CleanupGraphics();
    InitBars();
    InitWeights();
