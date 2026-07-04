@@ -560,107 +560,66 @@ void Train()
             for(int c=0; c<countClasses; c++) e += errOutput[c] * weightsOutputLayer[c][j];
             errHiden[j] = e;
            }
-           
-         double a = aStep;
-         adam_t++;
-         double b1_t = 1.0 - MathPow(beta1, (double)adam_t);
-         double b2_t = 1.0 - MathPow(beta2, (double)adam_t);
-
          for(int c=0; c<countClasses; c++)
            {
-            for(int j=0; j<countHiddenNeuron; j++) {
-               double g = errOutput[c] * outputsHidden[j];
-               m_weightsOutputLayer[c][j] = beta1 * m_weightsOutputLayer[c][j] + (1 - beta1) * g;
-               v_weightsOutputLayer[c][j] = beta2 * v_weightsOutputLayer[c][j] + (1 - beta2) * g * g;
-               double m_hat = m_weightsOutputLayer[c][j] / b1_t;
-               double v_hat = v_weightsOutputLayer[c][j] / b2_t;
-               weightsOutputLayer[c][j] -= a * m_hat / (MathSqrt(v_hat) + epsilon);
-            }
-            double g_t = errOutput[c] * (-1.0);
-            m_thresoldOutputLayer[c] = beta1 * m_thresoldOutputLayer[c] + (1 - beta1) * g_t;
-            v_thresoldOutputLayer[c] = beta2 * v_thresoldOutputLayer[c] + (1 - beta2) * g_t * g_t;
-            double m_hat_t = m_thresoldOutputLayer[c] / b1_t;
-            double v_hat_t = v_thresoldOutputLayer[c] / b2_t;
-            thresoldOutputLayer[c] -= a * m_hat_t / (MathSqrt(v_hat_t) + epsilon);
+            for(int j=0; j<countHiddenNeuron; j++) grad_wOut[c][j] += errOutput[c] * outputsHidden[j];
+            grad_tOut[c] += errOutput[c] * (-1.0);
            }
 
          for(int i=0; i<countHiddenNeuron; i++)
            {
             double common_grad = errHiden[i] * SigmoidDerivative(weightedSums[i]);
-            
-            for(int j=0; j<p; j++)
-              {
-               double x = (etalons[j + iSample] - localMin) / range;
-               double g = common_grad * x;
-               m_weightsHidden[i][j] = beta1 * m_weightsHidden[i][j] + (1 - beta1) * g;
-               v_weightsHidden[i][j] = beta2 * v_weightsHidden[i][j] + (1 - beta2) * g * g;
-               double m_hat = m_weightsHidden[i][j] / b1_t;
-               double v_hat = v_weightsHidden[i][j] / b2_t;
-               weightsHidden[i][j] -= a * m_hat / (MathSqrt(v_hat) + epsilon);
-              }
-              
-            double rangeInput = (range / _Point) / 1000.0;
-            double g_range = common_grad * rangeInput;
-            m_weightsHidden[i][p] = beta1 * m_weightsHidden[i][p] + (1 - beta1) * g_range;
-            v_weightsHidden[i][p] = beta2 * v_weightsHidden[i][p] + (1 - beta2) * g_range * g_range;
-            weightsHidden[i][p] -= a * (m_weightsHidden[i][p] / b1_t) / (MathSqrt(v_weightsHidden[i][p] / b2_t) + epsilon);
-            
-            double rsi14 = CalcRSI(etalons, iSample + p - 1, 14);
-            double rsiInput14 = (rsi14 - 50.0) / 100.0;
-            double g_rsi14 = common_grad * rsiInput14;
-            m_weightsHidden[i][p+1] = beta1 * m_weightsHidden[i][p+1] + (1 - beta1) * g_rsi14;
-            v_weightsHidden[i][p+1] = beta2 * v_weightsHidden[i][p+1] + (1 - beta2) * g_rsi14 * g_rsi14;
-            weightsHidden[i][p+1] -= a * (m_weightsHidden[i][p+1] / b1_t) / (MathSqrt(v_weightsHidden[i][p+1] / b2_t) + epsilon);
-            
-            double rsi7 = CalcRSI(etalons, iSample + p - 1, 7);
-            double rsiInput7 = (rsi7 - 50.0) / 100.0;
-            double g_rsi7 = common_grad * rsiInput7;
-            m_weightsHidden[i][p+2] = beta1 * m_weightsHidden[i][p+2] + (1 - beta1) * g_rsi7;
-            v_weightsHidden[i][p+2] = beta2 * v_weightsHidden[i][p+2] + (1 - beta2) * g_rsi7 * g_rsi7;
-            weightsHidden[i][p+2] -= a * (m_weightsHidden[i][p+2] / b1_t) / (MathSqrt(v_weightsHidden[i][p+2] / b2_t) + epsilon);
-            
-            double g_sin = common_grad * timeSin;
-            m_weightsHidden[i][p+3] = beta1 * m_weightsHidden[i][p+3] + (1 - beta1) * g_sin;
-            v_weightsHidden[i][p+3] = beta2 * v_weightsHidden[i][p+3] + (1 - beta2) * g_sin * g_sin;
-            weightsHidden[i][p+3] -= a * (m_weightsHidden[i][p+3] / b1_t) / (MathSqrt(v_weightsHidden[i][p+3] / b2_t) + epsilon);
-            
-            double g_fast = common_grad * maFastNorm;
-            m_weightsHidden[i][p+4] = beta1 * m_weightsHidden[i][p+4] + (1 - beta1) * g_fast;
-            v_weightsHidden[i][p+4] = beta2 * v_weightsHidden[i][p+4] + (1 - beta2) * g_fast * g_fast;
-            weightsHidden[i][p+4] -= a * (m_weightsHidden[i][p+4] / b1_t) / (MathSqrt(v_weightsHidden[i][p+4] / b2_t) + epsilon);
-            
-            double g_slow = common_grad * maSlowNorm;
-            m_weightsHidden[i][p+5] = beta1 * m_weightsHidden[i][p+5] + (1 - beta1) * g_slow;
-            v_weightsHidden[i][p+5] = beta2 * v_weightsHidden[i][p+5] + (1 - beta2) * g_slow * g_slow;
-            weightsHidden[i][p+5] -= a * (m_weightsHidden[i][p+5] / b1_t) / (MathSqrt(v_weightsHidden[i][p+5] / b2_t) + epsilon);
-            
-            double g_fastSlope = common_grad * maFastSlope;
-            m_weightsHidden[i][p+6] = beta1 * m_weightsHidden[i][p+6] + (1 - beta1) * g_fastSlope;
-            v_weightsHidden[i][p+6] = beta2 * v_weightsHidden[i][p+6] + (1 - beta2) * g_fastSlope * g_fastSlope;
-            weightsHidden[i][p+6] -= a * (m_weightsHidden[i][p+6] / b1_t) / (MathSqrt(v_weightsHidden[i][p+6] / b2_t) + epsilon);
-            
-            double g_slowSlope = common_grad * maSlowSlope;
-            m_weightsHidden[i][p+7] = beta1 * m_weightsHidden[i][p+7] + (1 - beta1) * g_slowSlope;
-            v_weightsHidden[i][p+7] = beta2 * v_weightsHidden[i][p+7] + (1 - beta2) * g_slowSlope * g_slowSlope;
-            weightsHidden[i][p+7] -= a * (m_weightsHidden[i][p+7] / b1_t) / (MathSqrt(v_weightsHidden[i][p+7] / b2_t) + epsilon);
-            
-            double g_atr = common_grad * atrArr[iSample + p - 1];
-            m_weightsHidden[i][p+8] = beta1 * m_weightsHidden[i][p+8] + (1 - beta1) * g_atr;
-            v_weightsHidden[i][p+8] = beta2 * v_weightsHidden[i][p+8] + (1 - beta2) * g_atr * g_atr;
-            weightsHidden[i][p+8] -= a * (m_weightsHidden[i][p+8] / b1_t) / (MathSqrt(v_weightsHidden[i][p+8] / b2_t) + epsilon);
-            
-            double g_cos = common_grad * timeCos;
-            m_weightsHidden[i][p+9] = beta1 * m_weightsHidden[i][p+9] + (1 - beta1) * g_cos;
-            v_weightsHidden[i][p+9] = beta2 * v_weightsHidden[i][p+9] + (1 - beta2) * g_cos * g_cos;
-            weightsHidden[i][p+9] -= a * (m_weightsHidden[i][p+9] / b1_t) / (MathSqrt(v_weightsHidden[i][p+9] / b2_t) + epsilon);
-            
-            double g_thres = common_grad * (-1.0);
-            m_thresoldsHidden[i] = beta1 * m_thresoldsHidden[i] + (1 - beta1) * g_thres;
-            v_thresoldsHidden[i] = beta2 * v_thresoldsHidden[i] + (1 - beta2) * g_thres * g_thres;
-            thresoldsHidden[i] -= a * (m_thresoldsHidden[i] / b1_t) / (MathSqrt(v_thresoldsHidden[i] / b2_t) + epsilon);
+            for(int j=0; j<p; j++) grad_wHid[i][j] += common_grad * ((etalons[j + iSample] - localMin) / range);
+            grad_wHid[i][p] += common_grad * ((range / _Point) / 1000.0);
+            grad_wHid[i][p+1] += common_grad * ((CalcRSI(etalons, iSample + p - 1, 14) - 50.0) / 100.0);
+            grad_wHid[i][p+2] += common_grad * ((CalcRSI(etalons, iSample + p - 1, 7) - 50.0) / 100.0);
+            grad_wHid[i][p+3] += common_grad * timeSin;
+            grad_wHid[i][p+4] += common_grad * maFastNorm;
+            grad_wHid[i][p+5] += common_grad * maSlowNorm;
+            grad_wHid[i][p+6] += common_grad * maFastSlope;
+            grad_wHid[i][p+7] += common_grad * maSlowSlope;
+            grad_wHid[i][p+8] += common_grad * atrArr[iSample + p - 1];
+            grad_wHid[i][p+9] += common_grad * timeCos;
+            grad_tHid[i] += common_grad * (-1.0);
            }
         }
-      errGlobal = (errGlobal / (maxSample + 1));
+
+      double numSamples = (double)(maxSample + 1);
+      double a = aStep;
+      adam_t++;
+      double b1_t = 1.0 - MathPow(beta1, (double)adam_t);
+      double b2_t = 1.0 - MathPow(beta2, (double)adam_t);
+      
+      for(int c=0; c<countClasses; c++)
+        {
+         for(int j=0; j<countHiddenNeuron; j++) {
+            double g = grad_wOut[c][j] / numSamples;
+            m_weightsOutputLayer[c][j] = beta1 * m_weightsOutputLayer[c][j] + (1 - beta1) * g;
+            v_weightsOutputLayer[c][j] = beta2 * v_weightsOutputLayer[c][j] + (1 - beta2) * g * g;
+            weightsOutputLayer[c][j] -= a * (m_weightsOutputLayer[c][j] / b1_t) / (MathSqrt(v_weightsOutputLayer[c][j] / b2_t) + epsilon);
+         }
+         double g_t = grad_tOut[c] / numSamples;
+         m_thresoldOutputLayer[c] = beta1 * m_thresoldOutputLayer[c] + (1 - beta1) * g_t;
+         v_thresoldOutputLayer[c] = beta2 * v_thresoldOutputLayer[c] + (1 - beta2) * g_t * g_t;
+         thresoldOutputLayer[c] -= a * (m_thresoldOutputLayer[c] / b1_t) / (MathSqrt(v_thresoldOutputLayer[c] / b2_t) + epsilon);
+        }
+
+      for(int i=0; i<countHiddenNeuron; i++)
+        {
+         for(int j=0; j<=p+9; j++) {
+            double g = grad_wHid[i][j] / numSamples;
+            m_weightsHidden[i][j] = beta1 * m_weightsHidden[i][j] + (1 - beta1) * g;
+            v_weightsHidden[i][j] = beta2 * v_weightsHidden[i][j] + (1 - beta2) * g * g;
+            weightsHidden[i][j] -= a * (m_weightsHidden[i][j] / b1_t) / (MathSqrt(v_weightsHidden[i][j] / b2_t) + epsilon);
+         }
+         double g_t = grad_tHid[i] / numSamples;
+         m_thresoldsHidden[i] = beta1 * m_thresoldsHidden[i] + (1 - beta1) * g_t;
+         v_thresoldsHidden[i] = beta2 * v_thresoldsHidden[i] + (1 - beta2) * g_t * g_t;
+         thresoldsHidden[i] -= a * (m_thresoldsHidden[i] / b1_t) / (MathSqrt(v_thresoldsHidden[i] / b2_t) + epsilon);
+        }
+        
+      errGlobal = (errGlobal / numSamples);
+
      }
 
    Print("Итерация " + countTeaches + " === Ошибко " + errGlobal + " Save Timer " + saveTimer);
