@@ -96,6 +96,9 @@ int ticket;
 bool ebobo;
 bool nonTeacheble;
 double errGlobal = 999;
+double errValidation = 999;
+double bestErrValidation = 999999;
+int earlyStopCounter = 0;
 int countTryed;
 double teachErrThresold = 3.5;
 int fastPassCounter;
@@ -363,12 +366,11 @@ double CalcRSI(double &data[], int endIndex, int period)
    return 100.0 - (100.0 / (1.0 + rs));
   }
 
-void CalculateError()
+double CalculateLoss(int startIndex, int endIndex)
   {
-   errGlobal = 0;
-   int maxSample = trainSize - p - predictHorizon - trainBuffer;
-   
-   for(int iSample=0; iSample <= maxSample; iSample++)
+   double err = 0;
+   int count = 0;
+   for(int iSample=startIndex; iSample <= endIndex; iSample++)
      {
       double localMin = 999999;
       double localMax = -999999;
@@ -387,6 +389,7 @@ void CalculateError()
       double maFastSlope = maFastSlopeArr[iSample + p - 1];
       double maSlowSlope = maSlowSlopeArr[iSample + p - 1];
 
+      double outputsHiddenLocal[countHiddenNeuron];
       for(int i=0; i<countHiddenNeuron; i++)
         {
          double wSum = 0;
@@ -415,15 +418,14 @@ void CalculateError()
          wSum += weightsHidden[i][p+9] * timeCos;
          
          wSum -= thresoldsHidden[i];
-         weightedSums[i] = wSum;
-         outputsHidden[i] = Sigmoid(wSum);
+         outputsHiddenLocal[i] = Sigmoid(wSum);
         }
 
       double outOutput[countClasses]; ArrayInitialize(outOutput, 0);
       for(int c=0; c<countClasses; c++)
         {
          double sumOut = 0;
-         for(int i=0; i<countHiddenNeuron; i++) sumOut += weightsOutputLayer[c][i] * outputsHidden[i];
+         for(int i=0; i<countHiddenNeuron; i++) sumOut += weightsOutputLayer[c][i] * outputsHiddenLocal[i];
          sumOut -= thresoldOutputLayer[c];
          outOutput[c] = sumOut;
         }
@@ -445,9 +447,26 @@ void CalculateError()
          else if(targetDeltaPoints >= classWeakThreshold) targetClass = 4;
       
       double weightPenalty = (targetClass == 3) ? penaltyFlat : 1.0;
-      errGlobal += (-MathLog(probsTrain[targetClass] + 1e-10)) * weightPenalty;
+      err += (-MathLog(probsTrain[targetClass] + 1e-10)) * weightPenalty;
+      count++;
      }
-   errGlobal = (errGlobal / (maxSample + 1));
+   if(count > 0) return err / count;
+   return 0;
+  }
+
+void CalculateError()
+  {
+   int maxSample = trainSize - p - predictHorizon - trainBuffer;
+   errGlobal = CalculateLoss(0, maxSample);
+   
+   if(trainBuffer > 0)
+     {
+      int valStart = maxSample + 1;
+      int valEnd = trainSize - p - predictHorizon;
+      if(valEnd >= valStart) errValidation = CalculateLoss(valStart, valEnd);
+      else errValidation = 0;
+     }
+   else errValidation = 0;
   }
 
 //+------------------------------------------------------------------+
@@ -628,9 +647,34 @@ void Train()
         
       errGlobal = (errGlobal / numSamples);
 
+      if(trainBuffer > 0)
+        {
+         int valStart = maxSample + 1;
+         int valEnd = trainSize - p - predictHorizon;
+         if(valEnd >= valStart)
+           {
+            errValidation = CalculateLoss(valStart, valEnd);
+            if(errValidation > bestErrValidation)
+              {
+               earlyStopCounter++;
+               if(earlyStopCounter >= 3)
+                 {
+                  nonTeacheble = true;
+                  Print("Early Stopping: Обучение остановлено! Ошибка валидации растет.");
+                  return;
+                 }
+              }
+            else
+              {
+               bestErrValidation = errValidation;
+               earlyStopCounter = 0;
+              }
+           }
+        }
+
      }
 
-   Print("Итерация " + countTeaches + " === Ошибко " + errGlobal + " Save Timer " + saveTimer);
+   Print("Итерация " + countTeaches + " === Train Err: " + DoubleToString(errGlobal, 5) + " Val Err: " + DoubleToString(errValidation, 5));
    if(errGlobal > teachErrThresold && readInitData == false)
      {
       InitWeights();
@@ -879,6 +923,8 @@ void OnTick()
       countTryed = 0;
       nonTeacheble = false;
       ebobo = true;
+      bestErrValidation = 999999;
+      earlyStopCounter = 0;
       InitBars();
       if(allowSkipTrain) CalculateError();
      }
@@ -913,7 +959,7 @@ void OnTick()
    lines[1] = "Status: " + status;
    lines[2] = "Arch: Inp(" + IntegerToString(p+10) + ") -> Hid(" + IntegerToString(countHiddenNeuron) + ") -> Out(Softmax)";
    lines[3] = "Mem: " + IntegerToString(trainSize) + " bars | Train buf: " + IntegerToString(trainBuffer) + " | +ATR +sin/cos(time)";
-   lines[4] = "Global Error: " + DoubleToString(errGlobal, 5) + " / " + DoubleToString(tradeErrThresold, 5);
+   lines[4] = "Train Err: " + DoubleToString(errGlobal, 5) + " | Val Err: " + DoubleToString(errValidation, 5);
    lines[5] = "Passes Done: " + IntegerToString(countTeaches);
    lines[6] = "Pass (Epochs per tick): " + IntegerToString(pass);
    lines[7] = "Learning Rate (aStep): " + DoubleToString(aStep, 6);
