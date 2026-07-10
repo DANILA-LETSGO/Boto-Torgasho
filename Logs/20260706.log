@@ -1,0 +1,31 @@
+0	00:05:01.486	NN_5_Normalized_Realtime EURUSD,H1: Teach Iteration: 30 === Global Error: 68402.78948566527 Save Timer: 0
+0	00:05:01.502	NN_5_Normalized_Realtime EURUSD,H1: Data successfully written to: weightsHidden.txt
+0	00:05:01.502	NN_5_Normalized_Realtime EURUSD,H1: Data successfully written to: thresoldsHidden.txt
+0	00:05:01.517	NN_5_Normalized_Realtime EURUSD,H1: Data successfully written to: weightsOutputLayer.txt
+0	00:05:01.517	NN_5_Normalized_Realtime EURUSD,H1: Weights initialized successfully.
+0	00:05:04.450	NN_5_Normalized_Realtime EURUSD,H1: Teach Iteration: 30 === Global Error: 153.882191022335 Save Timer: 0
+2	00:05:04.856	NN_5_Normalized_Realtime EURUSD,H1: open #246274102 sell 0.10 EURUSD at 1.14337 sl: 1.14583 tp: 1.14333 ok
+0	01:00:00.221	NN_5_Normalized_Realtime EURUSD,H1: Teach Iteration: 60 === Global Error: 125.2043906804763 Save Timer: 0
+2	01:00:00.595	NN_5_Normalized_Realtime EURUSD,H1: open #246274355 sell 0.10 EURUSD at 1.14347 sl: 1.14570 tp: 1.14320 ok
+0	02:00:08.641	NN_5_Normalized_Realtime EURUSD,H1: Teach Iteration: 90 === Global Error: 112.1165674982428 Save Timer: 0
+2	02:00:09.047	NN_5_Normalized_Realtime EURUSD,H1: open #246276108 sell 0.10 EURUSD at 1.14359 sl: 1.14524 tp: 1.14274 ok
+0	03:00:00.079	NN_5_Normalized_Realtime EURUSD,H1: Teach Iteration: 120 === Global Error: 103.2767272538755 Save Timer: 0
+2	03:00:00.423	NN_5_Normalized_Realtime EURUSD,H1: open #246278888 sell 0.10 EURUSD at 1.14363 sl: 1.14525 tp: 1.14275 ok
+0	16:46:20.995	NN_5_Normalized_Realtime EURUSD,H1: Teach Iteration: 150 === Global Error: 95.93038356934024 Save Timer: 0
+0	16:59:58.401	NN_5_Normalized_Realtime EURUSD,H1: Teach Iteration: 180 === Global Error: 91.36460755736043 Save Timer: 0
+0	17:59:58.357	NN_5_Normalized_Realtime EURUSD,H1: Teach Iteration: 210 === Global Error: 88.20629573822926 Save Timer: 0
+0	19:58:50.531	NN_5_Normalized_Realtime EURUSD,H1: Teach Iteration: 240 === Global Error: 85.70068383583992 Save Timer: 0
+0	19:59:58.090	NN_5_Normalized_Realtime EURUSD,H1: Teach Iteration: 270 === Global Error: 83.47436476064487 Save Timer: 0
+0	20:27:41.552	NN_5_Normalized_Realtime EURUSD,H1: uninit reason 5
+0	20:27:41.583	NN_5_Normalized_Realtime EURUSD,H1: Dynamic thresholds calculated. Trade threshold: 845.0000000000001, Teach threshold: 2880.0
+0	20:27:41.583	NN_5_Normalized_Realtime EURUSD,H1 inputs: tpMultiplier=1.0; readInitData=false; takeProfit=100; stopLoss=150; orderThresold=80; pass=30; countPredictAnalysys=6; predictShift=3; wRange=0.28; isRealtime=false; saveLearningProgress=false; ovverideSaveFile=false; saveTimerThresold=100; allowSkipTrain=false; MaxSkipBars=88; aStep=0.01; MaxTradeErrorPct=6.5; MaxTeachErrorPct=12.0; 
+0	20:27:42.051	NN_5_Normalized_Realtime EURUSD,H1: Data successfully written to: weightsHidden.txt
+0	20:27:42.051	NN_5_Normalized_Realtime EURUSD,H1: Data successfully written to: thresoldsHidden.txt
+0	20:27:42.051	NN_5_Normalized_Realtime EURUSD,H1: Data successfully written to: weightsOutputLayer.txt
+0	20:27:42.051	NN_5_Normalized_Realtime EURUSD,H1: Weights initialized successfully.
+0	20:27:42.051	NN_5_Normalized_Realtime EURUSD,H1: initialized
+0	20:59:57.999	NN_5_Normalized_Realtime EURUSD,H1: Teach Iteration: 30 === Global Error: 194.8033752192313 Save Timer: 0
+0	21:59:58.017	NN_5_Normalized_Realtime EURUSD,H1: Teach Iteration: 60 === Global Error: 138.9411849378298 Save Timer: 0
+0	22:59:58.083	NN_5_Normalized_Realtime EURUSD,H1: Teach Iteration: 90 === Global Error: 119.097836778321 Save Timer: 0
+0	23:41:09.548	NN_5_Normalized_Realtime EURUSD,H1: uninit reason 1
+0	23:41:09.579	Expert NN_5_Normalized_Realtime EURUSD,H1: removed

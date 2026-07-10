@@ -9,7 +9,7 @@
 #property strict
 
 #define p 36
-#define countHiddenNeuron 24
+#define countHiddenNeuron 10
 #define countClasses 7
 #define trainSize 1536
 

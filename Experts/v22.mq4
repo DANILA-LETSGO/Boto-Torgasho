@@ -28,7 +28,6 @@ input double penaltyFlat = 0.1;       // Штраф за флэт
 input int pass = 1;
 int maxTeach = 1000;
 input double wRange = 0.35; // диапозон случайных значений весов
-input bool isRealtime;
 input bool saveLearningProgress;
 input bool ovverideSaveFile;
 input int saveTimerThresold = 100;
@@ -99,7 +98,6 @@ double errGlobal = 999;
 double errValidation = 999;
 double bestErrValidation = 999999;
 int earlyStopCounter = 0;
-int countTryed;
 double teachErrThresold = 3.5;
 int fastPassCounter;
 
@@ -675,12 +673,7 @@ void Train()
      }
 
    Print("Итерация " + countTeaches + " === Train Err: " + DoubleToString(errGlobal, 5) + " Val Err: " + DoubleToString(errValidation, 5));
-   if(errGlobal > teachErrThresold && readInitData == false)
-     {
-      InitWeights();
-      countTryed++;
-     }
-     
+   
    if(saveLearningProgress)
      {
       saveTimer++;
@@ -776,8 +769,7 @@ void Predict()
 
    if(errGlobal < tradeErrThresold)
      {
-      if(isRealtime && ebobo) Trade();
-      else if (!isRealtime) Trade();
+      Trade();
      }
   }
 
@@ -943,7 +935,6 @@ void OnTick()
       // --------------------------
 
       fastPassCounter++;
-      countTryed = 0;
       nonTeacheble = false;
       ebobo = true;
       bestErrValidation = 999999;
@@ -961,16 +952,6 @@ void OnTick()
       DrawLinesNN();
       DrawLinesPredict();
      }
-     
-  if(isRealtime)
-    {
-      Train();
-      Predict();
-      CleanupGraphics();
-      DrawLines();
-      DrawLinesNN();
-      DrawLinesPredict();
-    }
 
    string status = (errGlobal < tradeErrThresold) ? "[OK] READY (Trading)" : "[!] LEARNING";
    color txtColor = infoTextColor;
