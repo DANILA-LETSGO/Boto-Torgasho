@@ -1,0 +1,12 @@
+0	22:23:22.541	v7.2 Ч копи€ EURUSD,H1: »тераци€ 2 === ќшибко 0.08724326845956594 Save Timer 0
+0	23:07:56.575	v7.2 Ч копи€ EURUSD,H1: uninit reason 9
+0	23:07:56.685	Expert v7.2 Ч копи€ EURUSD,H1: removed
+0	23:12:00.179	Expert v7.2 Ч копи€ EURUSD,H1: loaded successfully
+0	23:12:00.179	v7.2 Ч копи€ EURUSD,H1 inputs: tpMultiplier=1.0; readInitData=false; takeProfit=300; stopLoss=400; orderThresold=80; pass=1; countPredictAnalysys=10; predictShift=3; wRange=0.1; isRealtime=false; saveLearningProgress=false; ovverideSaveFile=false; saveTimerThresold=100; allowSkipTrain=true; skipTrainMaxPasses=24; aStep=0.01; momentum=0.8; onlyOneOrder=false; closeOnReverseSignal=false; magicNumber=888; useRandomSeed=true; randomSeed=42; checkLastNTrades=5; maxLossThresholdPips=500; tradeErrThresold=0.35; 
+0	23:12:04.610	v7.2 Ч копи€ EURUSD,H1: ƒанные успешно записаны в файл Exp7_weightsHidden.txt
+0	23:12:04.611	v7.2 Ч копи€ EURUSD,H1: ƒанные успешно записаны в файл Exp7_thresoldsHidden.txt
+0	23:12:04.612	v7.2 Ч копи€ EURUSD,H1: ƒанные успешно записаны в файл Exp7_weightsOutputLayer.txt
+0	23:12:04.612	v7.2 Ч копи€ EURUSD,H1: ======================================= ¬еса »нициализированы ===================================
+0	23:12:04.612	v7.2 Ч копи€ EURUSD,H1: initialized
+0	23:12:18.548	v7.2 Ч копи€ EURUSD,H1: »тераци€ 1 === ќшибко 0.08718558644036019 Save Timer 0
+3	23:12:18.548	v7.2 Ч копи€ EURUSD,H1: trade operations not allowed by settings
