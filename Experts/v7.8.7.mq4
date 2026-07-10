@@ -705,6 +705,9 @@ void Train()
          // Умножаем на range для корректного градиента цены, 
          // и делим на 100 * _Point для сохранения масштаба скорости обучения (aStep)
          double gradScale = range / (100 * _Point);
+         // Ограничиваем масштаб градиента для защиты от взрыва сети на волатильных парах (BTCUSD, золото)
+         if (gradScale > 10.0) gradScale = 10.0;
+         if (gradScale < 0.1) gradScale = 0.1;
          
          double errHiden[countHiddenNeuron];
          for(int i=0; i<countHiddenNeuron; i++)
