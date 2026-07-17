@@ -8,3 +8,186 @@
 0	01:02:27.214	NN_5_Normalized_Realtime GBPUSD,H4: initialized
 0	01:03:13.686	Expert NN_5_Normalized_Realtime BTCUSD,H1: loaded successfully
 0	01:03:13.686	NN_5_Normalized_Realtime BTCUSD,H1 inputs: tpMultiplier=1.0; readInitData=false; takeProfit=100; stopLoss=150; orderThresold=80; pass=30; countPredictAnalysys=6; predictShift=3; wRange=0.28; isRealtime=false; saveLearningProgress=false; ovverideSaveFile=false; saveTimerThresold=100; allowSkipTrain=false; MaxSkipBars=88; aStep=0.01; MaxTradeErrorPct=6.5; MaxTeachErrorPct=12.0; 
+0	01:03:13.717	NN_5_Normalized_Realtime BTCUSD,H1: Dynamic thresholds calculated. Trade threshold: 845.0000000000001, Teach threshold: 2880.0
+0	01:03:13.873	NN_5_Normalized_Realtime BTCUSD,H1: Data successfully written to: weightsHidden.txt
+0	01:03:13.873	NN_5_Normalized_Realtime BTCUSD,H1: Data successfully written to: thresoldsHidden.txt
+0	01:03:13.873	NN_5_Normalized_Realtime BTCUSD,H1: Data successfully written to: weightsOutputLayer.txt
+0	01:03:13.873	NN_5_Normalized_Realtime BTCUSD,H1: Weights initialized successfully.
+0	01:03:13.873	NN_5_Normalized_Realtime BTCUSD,H1: initialized
+0	01:03:17.227	NN_5_Normalized_Realtime BTCUSD,H1: Teach Iteration: 30 === Global Error: 7.571673792249693 Save Timer: 0
+3	01:03:17.227	NN_5_Normalized_Realtime BTCUSD,H1: trade operations not allowed by settings
+1	01:03:17.227	NN_5_Normalized_Realtime BTCUSD,H1: array out of range in 'NN_5_Normalized_Realtime.mq4' (652,23)
+0	01:03:17.243	NN_5_Normalized_Realtime BTCUSD,H1: uninit reason 3
+0	01:04:38.706	Expert NN_5_Normalized_Realtime BTCUSD,M5: removed
+0	01:04:51.108	Expert v7.8.7 BTCUSD,M5: loaded successfully
+0	01:05:49.499	v7.8.7 BTCUSD,M5 inputs: tpMultiplier=1.0; readInitData=false; takeProfit=300; stopLoss=400; orderThresold=150; useDynamicThreshold=false; useDynamicStopLoss=false; useDynamicTPLimit=false; useDynamicTPMultiplier=false; useAtrAsInput=false; useMaAsInput=false; useDayOfWeekAsInput=false; useCorrelationAsInput=false; correlationSymbol1=GBPUSD; correlationSymbol2=USDJPY; useCandlesAsInput=true; useTimeAsInput=true; pass=30; maxEpochsPerBar=150; countPredictAnalysys=6; predictShift=3; wRange=0.35; saveLearningProgress=false; ovverideSaveFile=false; saveTimerThresold=100; allowSkipTrain=false; skipTrainMaxPasses=24; aStep=0.01; momentum=0.9; onlyOneOrder=true; closeOnReverseSignal=true; magicNumber=123456; useRandomSeed=false; randomSeed=42; checkLastNTrades=5; maxLossThresholdPips=1000; tradeErrThresold=3.0; useDynamicError=false; 
+0	01:05:49.561	v7.8.7 BTCUSD,M5: ======================================= Веса Инициализированы ===================================
+0	01:05:49.561	v7.8.7 BTCUSD,M5: initialized
+0	01:06:00.326	v7.8.7 BTCUSD,M5: Итерация 30 === Ошибко -nan(ind) Save Timer 0
+0	01:06:04.522	v7.8.7 BTCUSD,M5: Итерация 60 === Ошибко -nan(ind) Save Timer 0
+0	01:06:08.453	v7.8.7 BTCUSD,M5: Итерация 90 === Ошибко -nan(ind) Save Timer 0
+0	01:06:12.150	v7.8.7 BTCUSD,M5: Итерация 120 === Ошибко -nan(ind) Save Timer 0
+0	01:06:15.848	v7.8.7 BTCUSD,M5: Итерация 150 === Ошибко -nan(ind) Save Timer 0
+0	01:06:16.846	v7.8.7 BTCUSD,M5: uninit reason 5
+0	01:06:16.862	v7.8.7 BTCUSD,M5 inputs: tpMultiplier=1.0; readInitData=false; takeProfit=300; stopLoss=400; orderThresold=150; useDynamicThreshold=false; useDynamicStopLoss=false; useDynamicTPLimit=false; useDynamicTPMultiplier=false; useAtrAsInput=false; useMaAsInput=false; useDayOfWeekAsInput=false; useCorrelationAsInput=false; correlationSymbol1=GBPUSD; correlationSymbol2=USDJPY; useCandlesAsInput=true; useTimeAsInput=true; pass=30; maxEpochsPerBar=150; countPredictAnalysys=6; predictShift=3; wRange=0.1; saveLearningProgress=false; ovverideSaveFile=false; saveTimerThresold=100; allowSkipTrain=false; skipTrainMaxPasses=24; aStep=0.01; momentum=0.9; onlyOneOrder=true; closeOnReverseSignal=true; magicNumber=123456; useRandomSeed=false; randomSeed=42; checkLastNTrades=5; maxLossThresholdPips=1000; tradeErrThresold=3.0; useDynamicError=false; 
+0	01:06:16.940	v7.8.7 BTCUSD,M5: ======================================= Веса Инициализированы ===================================
+0	01:06:16.940	v7.8.7 BTCUSD,M5: initialized
+0	01:06:46.408	v7.8.7 BTCUSD,M5: uninit reason 5
+0	01:06:46.424	v7.8.7 BTCUSD,M5 inputs: tpMultiplier=1.0; readInitData=false; takeProfit=300; stopLoss=400; orderThresold=150; useDynamicThreshold=false; useDynamicStopLoss=false; useDynamicTPLimit=false; useDynamicTPMultiplier=false; useAtrAsInput=false; useMaAsInput=false; useDayOfWeekAsInput=false; useCorrelationAsInput=false; correlationSymbol1=GBPUSD; correlationSymbol2=USDJPY; useCandlesAsInput=true; useTimeAsInput=true; pass=30; maxEpochsPerBar=150; countPredictAnalysys=6; predictShift=3; wRange=0.1; saveLearningProgress=false; ovverideSaveFile=false; saveTimerThresold=100; allowSkipTrain=false; skipTrainMaxPasses=24; aStep=0.01; momentum=0.9; onlyOneOrder=true; closeOnReverseSignal=true; magicNumber=123456; useRandomSeed=false; randomSeed=42; checkLastNTrades=5; maxLossThresholdPips=1000; tradeErrThresold=3.0; useDynamicError=false; 
+0	01:06:46.455	v7.8.7 BTCUSD,M5: ======================================= Веса Инициализированы ===================================
+0	01:06:46.455	v7.8.7 BTCUSD,M5: initialized
+0	01:08:59.648	v7.8.7 BTCUSD,M5: uninit reason 5
+0	01:08:59.663	v7.8.7 BTCUSD,M5 inputs: tpMultiplier=1.0; readInitData=false; takeProfit=300; stopLoss=400; orderThresold=150; useDynamicThreshold=false; useDynamicStopLoss=false; useDynamicTPLimit=false; useDynamicTPMultiplier=false; useAtrAsInput=false; useMaAsInput=false; useDayOfWeekAsInput=false; useCorrelationAsInput=false; correlationSymbol1=GBPUSD; correlationSymbol2=USDJPY; useCandlesAsInput=true; useTimeAsInput=true; pass=1; maxEpochsPerBar=150; countPredictAnalysys=6; predictShift=3; wRange=0.1; saveLearningProgress=false; ovverideSaveFile=false; saveTimerThresold=100; allowSkipTrain=true; skipTrainMaxPasses=24; aStep=0.01; momentum=0.9; onlyOneOrder=true; closeOnReverseSignal=true; magicNumber=123456; useRandomSeed=false; randomSeed=42; checkLastNTrades=5; maxLossThresholdPips=1000; tradeErrThresold=3.0; useDynamicError=false; 
+0	01:08:59.695	v7.8.7 BTCUSD,M5: ======================================= Веса Инициализированы ===================================
+0	01:08:59.695	v7.8.7 BTCUSD,M5: initialized
+0	01:10:08.272	v7.8.7 BTCUSD,M5: Итерация 1 === Ошибко -nan(ind) Save Timer 0
+0	01:10:10.987	v7.8.7 BTCUSD,M5: Итерация 2 === Ошибко -nan(ind) Save Timer 0
+0	01:10:11.970	v7.8.7 BTCUSD,M5: Итерация 3 === Ошибко -nan(ind) Save Timer 0
+0	01:10:12.141	v7.8.7 BTCUSD,M5: Итерация 4 === Ошибко -nan(ind) Save Timer 0
+0	01:10:17.929	v7.8.7 BTCUSD,M5: Итерация 5 === Ошибко -nan(ind) Save Timer 0
+0	01:10:18.100	v7.8.7 BTCUSD,M5: Итерация 6 === Ошибко -nan(ind) Save Timer 0
+0	01:10:23.670	v7.8.7 BTCUSD,M5: Итерация 7 === Ошибко -nan(ind) Save Timer 0
+0	01:10:23.935	v7.8.7 BTCUSD,M5: Итерация 8 === Ошибко -nan(ind) Save Timer 0
+0	01:10:25.323	v7.8.7 BTCUSD,M5: Итерация 9 === Ошибко -nan(ind) Save Timer 0
+0	01:10:25.510	v7.8.7 BTCUSD,M5: Итерация 10 === Ошибко -nan(ind) Save Timer 0
+0	01:10:25.682	v7.8.7 BTCUSD,M5: Итерация 11 === Ошибко -nan(ind) Save Timer 0
+0	01:10:26.384	v7.8.7 BTCUSD,M5: Итерация 12 === Ошибко -nan(ind) Save Timer 0
+0	01:10:31.688	v7.8.7 BTCUSD,M5: Итерация 13 === Ошибко -nan(ind) Save Timer 0
+0	01:10:31.875	v7.8.7 BTCUSD,M5: Итерация 14 === Ошибко -nan(ind) Save Timer 0
+0	01:10:32.047	v7.8.7 BTCUSD,M5: Итерация 15 === Ошибко -nan(ind) Save Timer 0
+0	01:10:32.889	v7.8.7 BTCUSD,M5: uninit reason 5
+0	01:10:32.905	v7.8.7 BTCUSD,M5 inputs: tpMultiplier=1.0; readInitData=false; takeProfit=300; stopLoss=400; orderThresold=150; useDynamicThreshold=false; useDynamicStopLoss=false; useDynamicTPLimit=false; useDynamicTPMultiplier=false; useAtrAsInput=false; useMaAsInput=false; useDayOfWeekAsInput=false; useCorrelationAsInput=false; correlationSymbol1=GBPUSD; correlationSymbol2=USDJPY; useCandlesAsInput=true; useTimeAsInput=true; pass=1; maxEpochsPerBar=150; countPredictAnalysys=6; predictShift=3; wRange=0.1; saveLearningProgress=false; ovverideSaveFile=false; saveTimerThresold=100; allowSkipTrain=true; skipTrainMaxPasses=24; aStep=0.01; momentum=0.8; onlyOneOrder=true; closeOnReverseSignal=true; magicNumber=123456; useRandomSeed=false; randomSeed=42; checkLastNTrades=5; maxLossThresholdPips=1000; tradeErrThresold=3.0; useDynamicError=false; 
+0	01:10:32.983	v7.8.7 BTCUSD,M5: ======================================= Веса Инициализированы ===================================
+0	01:10:32.983	v7.8.7 BTCUSD,M5: initialized
+0	01:10:36.259	v7.8.7 BTCUSD,M5: uninit reason 3
+0	01:10:37.179	v7.8.7 BTCUSD,M1: ======================================= Веса Инициализированы ===================================
+0	01:10:37.179	v7.8.7 BTCUSD,M1: initialized
+0	01:10:40.986	v7.8.7 BTCUSD,M1: Итерация 1 === Ошибко -nan(ind) Save Timer 0
+0	01:10:41.251	v7.8.7 BTCUSD,M1: Итерация 2 === Ошибко -nan(ind) Save Timer 0
+0	01:10:42.218	v7.8.7 BTCUSD,M1: Итерация 3 === Ошибко -nan(ind) Save Timer 0
+0	01:10:42.374	v7.8.7 BTCUSD,M1: Итерация 4 === Ошибко -nan(ind) Save Timer 0
+0	01:10:46.648	v7.8.7 BTCUSD,M1: Итерация 5 === Ошибко -nan(ind) Save Timer 0
+0	01:10:46.820	v7.8.7 BTCUSD,M1: Итерация 6 === Ошибко -nan(ind) Save Timer 0
+0	01:10:48.052	v7.8.7 BTCUSD,M1: Итерация 7 === Ошибко -nan(ind) Save Timer 0
+0	01:10:48.271	v7.8.7 BTCUSD,M1: Итерация 8 === Ошибко -nan(ind) Save Timer 0
+0	01:10:49.316	v7.8.7 BTCUSD,M1: Итерация 9 === Ошибко -nan(ind) Save Timer 0
+0	01:10:49.488	v7.8.7 BTCUSD,M1: Итерация 10 === Ошибко -nan(ind) Save Timer 0
+0	01:10:50.860	v7.8.7 BTCUSD,M1: uninit reason 3
+0	01:10:50.892	v7.8.7 BTCUSD,M5: ======================================= Веса Инициализированы ===================================
+0	01:10:50.892	v7.8.7 BTCUSD,M5: initialized
+0	01:10:52.374	v7.8.7 BTCUSD,M5: Итерация 1 === Ошибко -nan(ind) Save Timer 0
+0	01:10:52.530	v7.8.7 BTCUSD,M5: Итерация 2 === Ошибко -nan(ind) Save Timer 0
+0	01:11:06.211	v7.8.7 BTCUSD,M5: uninit reason 5
+0	01:11:06.226	v7.8.7 BTCUSD,M5 inputs: tpMultiplier=1.0; readInitData=false; takeProfit=300; stopLoss=400; orderThresold=150; useDynamicThreshold=false; useDynamicStopLoss=false; useDynamicTPLimit=false; useDynamicTPMultiplier=false; useAtrAsInput=false; useMaAsInput=false; useDayOfWeekAsInput=false; useCorrelationAsInput=false; correlationSymbol1=GBPUSD; correlationSymbol2=USDJPY; useCandlesAsInput=true; useTimeAsInput=true; pass=1; maxEpochsPerBar=150; countPredictAnalysys=6; predictShift=3; wRange=0.1; saveLearningProgress=false; ovverideSaveFile=false; saveTimerThresold=100; allowSkipTrain=true; skipTrainMaxPasses=24; aStep=0.01; momentum=0.7; onlyOneOrder=true; closeOnReverseSignal=true; magicNumber=123456; useRandomSeed=false; randomSeed=42; checkLastNTrades=5; maxLossThresholdPips=1000; tradeErrThresold=3.0; useDynamicError=false; 
+0	01:11:06.304	v7.8.7 BTCUSD,M5: ======================================= Веса Инициализированы ===================================
+0	01:11:06.304	v7.8.7 BTCUSD,M5: initialized
+0	01:11:07.381	v7.8.7 BTCUSD,M5: Итерация 1 === Ошибко -nan(ind) Save Timer 0
+0	01:11:07.552	v7.8.7 BTCUSD,M5: Итерация 2 === Ошибко -nan(ind) Save Timer 0
+0	01:11:08.410	v7.8.7 BTCUSD,M5: Итерация 3 === Ошибко -nan(ind) Save Timer 0
+0	01:11:08.566	v7.8.7 BTCUSD,M5: Итерация 4 === Ошибко -nan(ind) Save Timer 0
+0	01:11:25.492	v7.8.7 BTCUSD,M5: uninit reason 5
+0	01:11:25.508	v7.8.7 BTCUSD,M5 inputs: tpMultiplier=1.0; readInitData=false; takeProfit=300; stopLoss=400; orderThresold=150; useDynamicThreshold=false; useDynamicStopLoss=false; useDynamicTPLimit=false; useDynamicTPMultiplier=false; useAtrAsInput=false; useMaAsInput=false; useDayOfWeekAsInput=false; useCorrelationAsInput=false; correlationSymbol1=GBPUSD; correlationSymbol2=USDJPY; useCandlesAsInput=true; useTimeAsInput=true; pass=1; maxEpochsPerBar=150; countPredictAnalysys=6; predictShift=3; wRange=0.1; saveLearningProgress=false; ovverideSaveFile=false; saveTimerThresold=100; allowSkipTrain=true; skipTrainMaxPasses=24; aStep=0.001; momentum=0.7; onlyOneOrder=true; closeOnReverseSignal=true; magicNumber=123456; useRandomSeed=false; randomSeed=42; checkLastNTrades=5; maxLossThresholdPips=1000; tradeErrThresold=3.0; useDynamicError=false; 
+0	01:11:25.586	v7.8.7 BTCUSD,M5: ======================================= Веса Инициализированы ===================================
+0	01:11:25.586	v7.8.7 BTCUSD,M5: initialized
+0	01:11:27.193	v7.8.7 BTCUSD,M5: Итерация 1 === Ошибко 9.201780533229471 Save Timer 0
+0	01:11:27.349	v7.8.7 BTCUSD,M5: Итерация 2 === Ошибко -nan(ind) Save Timer 0
+0	01:11:32.294	v7.8.7 BTCUSD,M5: Итерация 3 === Ошибко -nan(ind) Save Timer 0
+0	01:11:32.466	v7.8.7 BTCUSD,M5: Итерация 4 === Ошибко -nan(ind) Save Timer 0
+0	01:11:42.481	v7.8.7 BTCUSD,M5: Итерация 5 === Ошибко -nan(ind) Save Timer 0
+0	01:12:01.310	v7.8.7 BTCUSD,M5: Итерация 6 === Ошибко -nan(ind) Save Timer 0
+0	01:12:01.716	v7.8.7 BTCUSD,M5: uninit reason 5
+0	01:12:01.731	v7.8.7 BTCUSD,M5 inputs: tpMultiplier=1.0; readInitData=false; takeProfit=300; stopLoss=400; orderThresold=150; useDynamicThreshold=false; useDynamicStopLoss=false; useDynamicTPLimit=false; useDynamicTPMultiplier=false; useAtrAsInput=false; useMaAsInput=false; useDayOfWeekAsInput=false; useCorrelationAsInput=false; correlationSymbol1=GBPUSD; correlationSymbol2=USDJPY; useCandlesAsInput=true; useTimeAsInput=true; pass=1; maxEpochsPerBar=150; countPredictAnalysys=6; predictShift=3; wRange=0.1; saveLearningProgress=false; ovverideSaveFile=false; saveTimerThresold=100; allowSkipTrain=true; skipTrainMaxPasses=24; aStep=0.001; momentum=0.5; onlyOneOrder=true; closeOnReverseSignal=true; magicNumber=123456; useRandomSeed=false; randomSeed=42; checkLastNTrades=5; maxLossThresholdPips=1000; tradeErrThresold=3.0; useDynamicError=false; 
+0	01:12:01.809	v7.8.7 BTCUSD,M5: ======================================= Веса Инициализированы ===================================
+0	01:12:01.809	v7.8.7 BTCUSD,M5: initialized
+0	01:12:08.564	v7.8.7 BTCUSD,M5: uninit reason 3
+0	01:12:08.595	v7.8.7 BTCUSD,M1: ======================================= Веса Инициализированы ===================================
+0	01:12:08.595	v7.8.7 BTCUSD,M1: initialized
+0	01:12:12.417	v7.8.7 BTCUSD,M1: Итерация 1 === Ошибко 6.028374700751034 Save Timer 0
+0	01:12:12.589	v7.8.7 BTCUSD,M1: Итерация 2 === Ошибко 5.916063569813345 Save Timer 0
+0	01:12:14.601	v7.8.7 BTCUSD,M1: Итерация 3 === Ошибко 6.083094093132926 Save Timer 0
+0	01:12:14.757	v7.8.7 BTCUSD,M1: Итерация 4 === Ошибко 5.871344431914469 Save Timer 0
+0	01:12:17.519	v7.8.7 BTCUSD,M1: Итерация 5 === Ошибко 5.768693337996448 Save Timer 0
+0	01:12:17.721	v7.8.7 BTCUSD,M1: Итерация 6 === Ошибко 5.545894503218763 Save Timer 0
+0	01:12:17.893	v7.8.7 BTCUSD,M1: Итерация 7 === Ошибко 5.711274654416388 Save Timer 0
+0	01:12:18.252	v7.8.7 BTCUSD,M1: Итерация 8 === Ошибко 5.701659622726086 Save Timer 0
+0	01:12:18.408	v7.8.7 BTCUSD,M1: Итерация 9 === Ошибко 5.769572762366749 Save Timer 0
+0	01:12:20.046	v7.8.7 BTCUSD,M1: Итерация 10 === Ошибко 5.805182565884425 Save Timer 0
+0	01:12:20.904	v7.8.7 BTCUSD,M1: Итерация 11 === Ошибко 5.900072697188485 Save Timer 0
+0	01:12:21.060	v7.8.7 BTCUSD,M1: Итерация 12 === Ошибко 6.090859781490884 Save Timer 0
+0	01:12:26.863	v7.8.7 BTCUSD,M1: Итерация 13 === Ошибко 5.98927176070312 Save Timer 0
+0	01:12:27.035	v7.8.7 BTCUSD,M1: Итерация 14 === Ошибко 6.120853709683165 Save Timer 0
+0	01:12:27.581	v7.8.7 BTCUSD,M1: Итерация 15 === Ошибко 6.181629330069879 Save Timer 0
+0	01:12:28.938	v7.8.7 BTCUSD,M1: Итерация 16 === Ошибко 6.212333301485215 Save Timer 0
+0	01:12:30.077	v7.8.7 BTCUSD,M1: uninit reason 3
+0	01:12:30.108	v7.8.7 BTCUSD,M5: ======================================= Веса Инициализированы ===================================
+0	01:12:30.123	v7.8.7 BTCUSD,M5: initialized
+0	01:12:34.086	v7.8.7 BTCUSD,M5: Итерация 1 === Ошибко 7.648853012095658 Save Timer 0
+0	01:12:37.752	v7.8.7 BTCUSD,M5: Итерация 2 === Ошибко 10.10534047020512 Save Timer 0
+0	01:12:59.561	v7.8.7 BTCUSD,M5: Итерация 3 === Ошибко -nan(ind) Save Timer 0
+0	01:12:59.717	v7.8.7 BTCUSD,M5: Итерация 4 === Ошибко -nan(ind) Save Timer 0
+0	01:13:02.010	v7.8.7 BTCUSD,M5: Итерация 5 === Ошибко -nan(ind) Save Timer 0
+0	01:13:02.166	v7.8.7 BTCUSD,M5: Итерация 6 === Ошибко -nan(ind) Save Timer 0
+0	01:13:02.681	v7.8.7 BTCUSD,M5: Итерация 7 === Ошибко -nan(ind) Save Timer 0
+0	01:13:02.852	v7.8.7 BTCUSD,M5: Итерация 8 === Ошибко -nan(ind) Save Timer 0
+0	01:13:06.050	v7.8.7 BTCUSD,M5: Итерация 9 === Ошибко -nan(ind) Save Timer 0
+0	01:13:06.222	v7.8.7 BTCUSD,M5: Итерация 10 === Ошибко -nan(ind) Save Timer 0
+0	01:13:06.425	v7.8.7 BTCUSD,M5: Итерация 11 === Ошибко -nan(ind) Save Timer 0
+0	01:13:06.581	v7.8.7 BTCUSD,M5: Итерация 12 === Ошибко -nan(ind) Save Timer 0
+0	01:13:11.073	v7.8.7 BTCUSD,M5: Итерация 13 === Ошибко -nan(ind) Save Timer 0
+0	01:13:11.323	v7.8.7 BTCUSD,M5: Итерация 14 === Ошибко -nan(ind) Save Timer 0
+0	01:13:13.117	v7.8.7 BTCUSD,M5: Итерация 15 === Ошибко -nan(ind) Save Timer 0
+0	01:13:28.998	v7.8.7 BTCUSD,M5: Итерация 16 === Ошибко -nan(ind) Save Timer 0
+0	01:13:29.185	v7.8.7 BTCUSD,M5: Итерация 17 === Ошибко -nan(ind) Save Timer 0
+0	01:13:29.357	v7.8.7 BTCUSD,M5: Итерация 18 === Ошибко -nan(ind) Save Timer 0
+0	01:13:29.528	v7.8.7 BTCUSD,M5: Итерация 19 === Ошибко -nan(ind) Save Timer 0
+0	01:13:37.921	v7.8.7 BTCUSD,M5: uninit reason 5
+0	01:13:37.937	v7.8.7 BTCUSD,M5 inputs: tpMultiplier=1.0; readInitData=false; takeProfit=300; stopLoss=400; orderThresold=150; useDynamicThreshold=false; useDynamicStopLoss=false; useDynamicTPLimit=false; useDynamicTPMultiplier=false; useAtrAsInput=false; useMaAsInput=false; useDayOfWeekAsInput=false; useCorrelationAsInput=false; correlationSymbol1=GBPUSD; correlationSymbol2=USDJPY; useCandlesAsInput=true; useTimeAsInput=true; pass=1; maxEpochsPerBar=150; countPredictAnalysys=6; predictShift=3; wRange=0.1; saveLearningProgress=false; ovverideSaveFile=false; saveTimerThresold=100; allowSkipTrain=true; skipTrainMaxPasses=24; aStep=0.001; momentum=0.4; onlyOneOrder=true; closeOnReverseSignal=true; magicNumber=123456; useRandomSeed=false; randomSeed=42; checkLastNTrades=5; maxLossThresholdPips=1000; tradeErrThresold=3.0; useDynamicError=false; 
+0	01:13:38.015	v7.8.7 BTCUSD,M5: ======================================= Веса Инициализированы ===================================
+0	01:13:38.015	v7.8.7 BTCUSD,M5: initialized
+0	01:13:45.581	v7.8.7 BTCUSD,M5: uninit reason 3
+0	01:13:45.612	v7.8.7 BTCUSD,M1: ======================================= Веса Инициализированы ===================================
+0	01:13:45.612	v7.8.7 BTCUSD,M1: initialized
+0	01:13:54.660	v7.8.7 BTCUSD,M1: Итерация 1 === Ошибко 6.006945503869742 Save Timer 0
+0	01:13:54.878	v7.8.7 BTCUSD,M1: Итерация 2 === Ошибко 5.847461165817525 Save Timer 0
+0	01:13:55.783	v7.8.7 BTCUSD,M1: Итерация 3 === Ошибко 5.776694731292262 Save Timer 0
+0	01:14:01.742	v7.8.7 BTCUSD,M1: Итерация 4 === Ошибко 5.946291478853977 Save Timer 0
+0	01:14:01.914	v7.8.7 BTCUSD,M1: Итерация 5 === Ошибко 5.681313486552756 Save Timer 0
+0	01:14:02.101	v7.8.7 BTCUSD,M1: Итерация 6 === Ошибко 5.603157017723886 Save Timer 0
+0	01:14:02.273	v7.8.7 BTCUSD,M1: Итерация 7 === Ошибко 5.614933747247444 Save Timer 0
+0	01:14:02.429	v7.8.7 BTCUSD,M1: Итерация 8 === Ошибко 5.4637978149579 Save Timer 0
+0	01:14:05.346	v7.8.7 BTCUSD,M1: Итерация 9 === Ошибко 5.529547984992512 Save Timer 0
+0	01:14:05.502	v7.8.7 BTCUSD,M1: Итерация 10 === Ошибко 5.762184578430301 Save Timer 0
+0	01:14:05.658	v7.8.7 BTCUSD,M1: Итерация 11 === Ошибко 5.496254639423905 Save Timer 0
+0	01:14:26.063	v7.8.7 BTCUSD,M1: Итерация 12 === Ошибко 5.588766962768888 Save Timer 0
+0	01:14:26.234	v7.8.7 BTCUSD,M1: Итерация 13 === Ошибко 5.651102622457174 Save Timer 0
+0	01:14:26.406	v7.8.7 BTCUSD,M1: Итерация 14 === Ошибко 5.701566298528624 Save Timer 0
+0	01:14:46.780	v7.8.7 BTCUSD,M1: Итерация 15 === Ошибко 5.755758665249757 Save Timer 0
+0	01:14:46.982	v7.8.7 BTCUSD,M1: Итерация 16 === Ошибко 5.801358739042066 Save Timer 0
+0	01:14:47.154	v7.8.7 BTCUSD,M1: Итерация 17 === Ошибко 5.838580473219011 Save Timer 0
+0	01:14:48.230	v7.8.7 BTCUSD,M1: Итерация 18 === Ошибко 5.900229010271905 Save Timer 0
+0	01:14:48.402	v7.8.7 BTCUSD,M1: Итерация 19 === Ошибко 5.903578492496506 Save Timer 0
+0	01:14:57.091	v7.8.7 BTCUSD,M1: Итерация 20 === Ошибко 5.935827832907722 Save Timer 0
+0	01:14:57.247	v7.8.7 BTCUSD,M1: Итерация 21 === Ошибко 5.993516406473518 Save Timer 0
+0	01:14:58.058	v7.8.7 BTCUSD,M1: Итерация 22 === Ошибко 5.991236699754444 Save Timer 0
+0	01:14:58.214	v7.8.7 BTCUSD,M1: Итерация 23 === Ошибко 5.924769292898199 Save Timer 0
+0	01:15:08.604	v7.8.7 BTCUSD,M1: Итерация 24 === Ошибко 5.939846639608523 Save Timer 0
+0	01:15:09.010	v7.8.7 BTCUSD,M1: Итерация 25 === Ошибко 5.950373414186778 Save Timer 0
+0	01:15:09.181	v7.8.7 BTCUSD,M1: Итерация 26 === Ошибко 5.917870981060709 Save Timer 0
+0	01:15:09.353	v7.8.7 BTCUSD,M1: Итерация 27 === Ошибко 5.93005702075097 Save Timer 0
+0	01:15:09.524	v7.8.7 BTCUSD,M1: Итерация 28 === Ошибко 5.989757413282055 Save Timer 0
+0	01:15:21.958	v7.8.7 BTCUSD,M1: Итерация 29 === Ошибко 6.836060856310517 Save Timer 0
+0	01:15:22.207	v7.8.7 BTCUSD,M1: Итерация 30 === Ошибко 5.973558528343347 Save Timer 0
+0	01:15:23.284	v7.8.7 BTCUSD,M1: uninit reason 3
+0	01:15:23.315	v7.8.7 BTCUSD,M5: ======================================= Веса Инициализированы ===================================
+0	01:15:23.315	v7.8.7 BTCUSD,M5: initialized
+0	01:15:28.759	v7.8.7 BTCUSD,M5: Итерация 1 === Ошибко 7.585397528333209 Save Timer 0
+0	01:15:50.553	v7.8.7 BTCUSD,M5: Итерация 2 === Ошибко -nan(ind) Save Timer 0
+0	01:15:51.145	v7.8.7 BTCUSD,M5: Итерация 3 === Ошибко -nan(ind) Save Timer 0
+0	01:15:51.348	v7.8.7 BTCUSD,M5: Итерация 4 === Ошибко -nan(ind) Save Timer 0
+0	01:15:55.451	v7.8.7 BTCUSD,M5: Итерация 5 === Ошибко -nan(ind) Save Timer 0
+0	01:15:59.507	v7.8.7 BTCUSD,M5: Итерация 6 === Ошибко -nan(ind) Save Timer 0
+0	01:16:01.363	v7.8.7 BTCUSD,M5: Итерация 7 === Ошибко -nan(ind) Save Timer 0
+0	01:16:04.499	v7.8.7 BTCUSD,M5: uninit reason 1
+0	01:16:04.530	Expert v7.8.7 BTCUSD,M5: removed
+0	01:40:47.490	Expert v7.8.7 BTCUSD,M5: loaded successfully
+0	01:40:51.515	Expert v7.8.7 BTCUSD,M5: removed

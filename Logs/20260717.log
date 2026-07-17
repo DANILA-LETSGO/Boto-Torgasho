@@ -1,0 +1,11 @@
+3	21:30:40.410	v7.2 Ч копи€ EURUSD,H1: trade operations not allowed by settings
+0	21:30:45.527	NN_5_Normalized_Realtime GBPUSD,H4: Teach Iteration: 90 === Global Error: 142.5930207865998 Save Timer: 0
+0	21:30:50.736	NN_5_Normalized_Realtime GBPUSD,H4: Teach Iteration: 120 === Global Error: 132.7189143720732 Save Timer: 0
+0	21:32:01.759	NN_5_Normalized_Realtime GBPUSD,H4: uninit reason 9
+0	21:32:01.775	v7.2 Ч копи€ EURUSD,H1: uninit reason 9
+0	21:32:01.993	Expert NN_5_Normalized_Realtime GBPUSD,H4: removed
+0	21:32:02.009	Expert v7.2 Ч копи€ EURUSD,H1: removed
+0	21:54:47.476	Expert NN_5_Normalized_Realtime GBPUSD,H4: loaded successfully
+0	21:54:47.476	NN_5_Normalized_Realtime GBPUSD,H4 inputs: tpMultiplier=1.0; readInitData=false; takeProfit=100; stopLoss=150; orderThresold=80; pass=30; countPredictAnalysys=6; predictShift=3; wRange=0.28; isRealtime=false; saveLearningProgress=false; ovverideSaveFile=false; saveTimerThresold=100; allowSkipTrain=false; MaxSkipBars=88; aStep=0.01; MaxTradeErrorPct=6.5; MaxTeachErrorPct=12.0; 
+0	21:54:47.796	Expert v7.2 Ч копи€ EURUSD,H1: loaded successfully
+0	21:54:47.797	v7.2 Ч копи€ EURUSD,H1 inputs: tpMultiplier=1.0; readInitData=false; takeProfit=300; stopLoss=400; orderThresold=80; pass=1; countPredictAnalysys=10; predictShift=3; wRange=0.1; isRealtime=false; saveLearningProgress=false; ovverideSaveFile=false; saveTimerThresold=100; allowSkipTrain=true; skipTrainMaxPasses=24; aStep=0.01; momentum=0.8; onlyOneOrder=false; closeOnReverseSignal=false; magicNumber=888; useRandomSeed=true; randomSeed=42; checkLastNTrades=5; maxLossThresholdPips=500; tradeErrThresold=0.35; 
