@@ -8,8 +8,8 @@
 #property version   "1.00"
 #property strict
 
-#define p 48//64
-#define countHiddenNeuron 6//24
+#define p 48 //64
+#define countHiddenNeuron 3 //24
 #define trainSize 3600
 #define predictBars 24
 
