@@ -9,3 +9,18 @@
 0	21:54:47.476	NN_5_Normalized_Realtime GBPUSD,H4 inputs: tpMultiplier=1.0; readInitData=false; takeProfit=100; stopLoss=150; orderThresold=80; pass=30; countPredictAnalysys=6; predictShift=3; wRange=0.28; isRealtime=false; saveLearningProgress=false; ovverideSaveFile=false; saveTimerThresold=100; allowSkipTrain=false; MaxSkipBars=88; aStep=0.01; MaxTradeErrorPct=6.5; MaxTeachErrorPct=12.0; 
 0	21:54:47.796	Expert v7.2 Ч копи€ EURUSD,H1: loaded successfully
 0	21:54:47.797	v7.2 Ч копи€ EURUSD,H1 inputs: tpMultiplier=1.0; readInitData=false; takeProfit=300; stopLoss=400; orderThresold=80; pass=1; countPredictAnalysys=10; predictShift=3; wRange=0.1; isRealtime=false; saveLearningProgress=false; ovverideSaveFile=false; saveTimerThresold=100; allowSkipTrain=true; skipTrainMaxPasses=24; aStep=0.01; momentum=0.8; onlyOneOrder=false; closeOnReverseSignal=false; magicNumber=888; useRandomSeed=true; randomSeed=42; checkLastNTrades=5; maxLossThresholdPips=500; tradeErrThresold=0.35; 
+0	21:54:54.529	NN_5_Normalized_Realtime GBPUSD,H4: Dynamic thresholds calculated. Trade threshold: 845.0000000000001, Teach threshold: 2880.0
+0	21:54:54.571	v7.2 Ч копи€ EURUSD,H1: ƒанные успешно записаны в файл Exp7_weightsHidden.txt
+0	21:54:54.591	v7.2 Ч копи€ EURUSD,H1: ƒанные успешно записаны в файл Exp7_thresoldsHidden.txt
+0	21:54:54.612	v7.2 Ч копи€ EURUSD,H1: ƒанные успешно записаны в файл Exp7_weightsOutputLayer.txt
+0	21:54:54.612	v7.2 Ч копи€ EURUSD,H1: ======================================= ¬еса »нициализированы ===================================
+0	21:54:54.612	v7.2 Ч копи€ EURUSD,H1: initialized
+0	21:54:56.184	v7.2 Ч копи€ EURUSD,H1: »тераци€ 1 === ќшибко 0.08169573079389646 Save Timer 0
+3	21:54:56.184	v7.2 Ч копи€ EURUSD,H1: trade operations not allowed by settings
+0	21:54:56.936	NN_5_Normalized_Realtime GBPUSD,H4: Data successfully written to: weightsHidden.txt
+0	21:54:56.946	NN_5_Normalized_Realtime GBPUSD,H4: Data successfully written to: thresoldsHidden.txt
+0	21:54:56.947	NN_5_Normalized_Realtime GBPUSD,H4: Data successfully written to: weightsOutputLayer.txt
+0	21:54:56.947	NN_5_Normalized_Realtime GBPUSD,H4: Weights initialized successfully.
+0	21:54:56.947	NN_5_Normalized_Realtime GBPUSD,H4: initialized
+0	21:55:04.586	NN_5_Normalized_Realtime GBPUSD,H4: Teach Iteration: 30 === Global Error: 181.5119184091798 Save Timer: 0
+3	21:55:04.586	NN_5_Normalized_Realtime GBPUSD,H4: trade operations not allowed by settings
